@@ -4,6 +4,10 @@ import { Poppins } from "next/font/google";
 import { Josefin_Sans } from "next/font/google";
 import { ThemeProvider } from "./utils/theme-provider";
 import Hero from "./components/Route/Hero";
+import { Toaster } from "react-hot-toast";
+import { Providers } from "./Provider";
+
+import { AuthProvider } from "./authProvider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -30,13 +34,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${poppins.variable} ${josefins.variable} bg-[#ced4da] h-screen dark:bg-slate-800 dark:bg-gradient-to-b bg-no-repeat dark:to-black duration-300`}
+        className={`${poppins.variable} ${josefins.variable} bg-white h-screen dark:bg-slate-800 dark:bg-gradient-to-b bg-no-repeat dark:to-black duration-300`}
       >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {" "}
-          {children}
-        </ThemeProvider>
-        <Hero />
+        <Providers>
+          <AuthProvider>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+              {" "}
+              {children}
+              <Toaster position="top-center" reverseOrder={false} />
+            </ThemeProvider>
+          </AuthProvider>
+        </Providers>
       </body>
     </html>
   );

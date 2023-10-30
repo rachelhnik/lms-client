@@ -1,20 +1,61 @@
 "use client";
 
 import Link from "next/link";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import NavItems from "../utils/NavItems";
 import ThemeSwitcher from "../utils/ThemeSwitcher";
 import { HiOutlineMenuAlt3, HiOutlineUserCircle } from "react-icons/hi";
+import Login from "./Auth/Login";
+import CustomModal from "../utils/CustomModal";
+import SignUp from "./Auth/Signup";
+import Verification from "./Auth/Verification";
+import { useSelector } from "react-redux";
+import Image from "next/image";
+import userProfile from "../../public/userProfile.png";
+import { useSession } from "next-auth/react";
+import {
+  useLogoutQuery,
+  useSocialAuthMutation,
+} from "@/redux/features/Auth/authApi";
+import { isUint16Array } from "util/types";
+import toast from "react-hot-toast";
 
 interface Props {
   open: boolean;
   setOpen: (data: boolean) => void;
   activeItem: number;
+  route: string;
+  setRoute: (route: string) => void;
 }
 
-const Header: FC<Props> = ({ activeItem, setOpen }) => {
+const Header: FC<Props> = ({ activeItem, open, setOpen, route, setRoute }) => {
   const [active, setActive] = useState(false);
   const [openSidebar, setOpenSidebar] = useState(false);
+  const { user } = useSelector((state: any) => state.auth);
+  const { data } = useSession();
+  const [logout, setLogout] = useState(false);
+  const [socialAuth, { isSuccess, error }] = useSocialAuthMutation();
+  const {} = useLogoutQuery(undefined, {
+    skip: !logout ? true : false,
+  });
+
+  useEffect(() => {
+    if (!user) {
+      if (data) {
+        socialAuth({
+          email: data.user?.email,
+          name: data.user?.name,
+          avatar: data.user?.image,
+        });
+      }
+      if (isSuccess) {
+        toast.success("Login successfully");
+      }
+      if (data === null) {
+        setLogout(true);
+      }
+    }
+  }, [data, user]);
 
   if (typeof window !== undefined) {
     let window: any;
@@ -35,8 +76,8 @@ const Header: FC<Props> = ({ activeItem, setOpen }) => {
       <div
         className={`${
           active
-            ? " dark:bg-opacity-50 dark:bg-slate-800 dark:bg-gradient-to-b dark:from-gray-900 dark:to-black bg-[#ced4da] fixed top-0 left-0 w-full h-[80px] z-[80] border-b border-slate-400 dark:border-[#ffffff1c]"
-            : "w-full border-b  dark:bg-slate-800 dark:border-gray border-slate-400 dark:border-[#ffffff1c] h-[80px] bg-[#ced4da] z-[80] dark:shadow"
+            ? " dark:bg-opacity-50 dark:bg-slate-800 dark:bg-gradient-to-b dark:from-gray-900 dark:to-black bg-white fixed top-0 left-0 w-full h-[80px] z-[80] border-b border-slate-400 dark:border-[#ffffff1c]"
+            : "w-full border-b  dark:bg-slate-800 dark:border-gray border-slate-400 dark:border-[#ffffff1c] h-[80px] bg-white z-[80] dark:shadow"
         }`}
       >
         <div className="w-[95%] 800px:w-[92%] m-auto py-2 h-full">
@@ -52,13 +93,30 @@ const Header: FC<Props> = ({ activeItem, setOpen }) => {
             <div className="flex items-center justify-between">
               <NavItems activeItem={activeItem} isMobile={false} />
               <ThemeSwitcher />
-              <HiOutlineUserCircle
-                size={25}
-                onClick={() => {
-                  setOpen(true);
-                }}
-                className="cursor-pointer text-slate-600 dark:text-slate-400  800px:ml-6"
-              />
+              {user ? (
+                <Link href={"/profile"}>
+                  <Image
+                    src={user.avatar ? user.avatar.url : userProfile}
+                    alt=""
+                    width={25}
+                    height={25}
+                    className="rounded-full cursor-pointer ml-3"
+                    style={{
+                      border: activeItem === 6 ? "2px solid #ffc107" : "",
+                    }}
+                  />
+                </Link>
+              ) : (
+                <HiOutlineUserCircle
+                  size={25}
+                  onClick={() => {
+                    setOpen(true);
+                    setRoute("Login");
+                  }}
+                  className="cursor-pointer text-slate-600 dark:text-slate-400  800px:ml-6"
+                />
+              )}
+
               <div className="800px:hidden">
                 <HiOutlineMenuAlt3
                   onClick={() => setOpenSidebar(true)}
@@ -69,29 +127,68 @@ const Header: FC<Props> = ({ activeItem, setOpen }) => {
             </div>
           </div>
         </div>
-      </div>
-      {openSidebar && (
-        <div
-          className="fixed w-full h-screen top-0 left-0 z-[99999]"
-          onClick={handleClose}
-          id="screen"
-        >
-          <div className="w-[50%] fixed z-[9999999999] h-screen dark:border-l-[0.1px] border-l-2 bg-[#ced4da] border-slate-400 dark:bg-slate-800 top-0 right-0">
-            <NavItems activeItem={activeItem} isMobile={true} />
-            <HiOutlineUserCircle
-              size={25}
-              onClick={() => {
-                setOpen(true);
-              }}
-              className="cursor-pointer text-slate-600 dark:text-slate-400 m-auto mt-6"
-            />
-            <br />
-            <br />
-            <p className="fixed bottom-0 text-[12px] ml-6 text-black dark:text-slate-400">
-              Copyright © 2023 Elearning
-            </p>
+        {openSidebar && (
+          <div
+            className="fixed w-full h-screen top-0 left-0 z-[99999]"
+            onClick={handleClose}
+            id="screen"
+          >
+            <div className="w-[50%] fixed z-[9999999999] h-screen dark:border-l-[0.1px] border-l-2 bg-white border-slate-400 dark:bg-slate-800 top-0 right-0">
+              <NavItems activeItem={activeItem} isMobile={true} />
+              <HiOutlineUserCircle
+                size={25}
+                onClick={() => {
+                  setOpen(true);
+                }}
+                className="cursor-pointer text-slate-600 dark:text-slate-400 m-auto mt-6"
+              />
+              <br />
+              <br />
+              <p className="fixed bottom-0 text-[12px] ml-6 text-black dark:text-slate-400">
+                Copyright © 2023 Elearning
+              </p>
+            </div>
           </div>
-        </div>
+        )}
+      </div>
+      {route === "Login" && (
+        <>
+          {open && (
+            <CustomModal
+              setOpen={setOpen}
+              open={open}
+              setRoute={setRoute}
+              activeItem={activeItem}
+              component={Login}
+            />
+          )}
+        </>
+      )}
+      {route === "Sign-Up" && (
+        <>
+          {open && (
+            <CustomModal
+              setOpen={setOpen}
+              open={open}
+              setRoute={setRoute}
+              activeItem={activeItem}
+              component={SignUp}
+            />
+          )}
+        </>
+      )}
+      {route === "Verification" && (
+        <>
+          {open && (
+            <CustomModal
+              setOpen={setOpen}
+              open={open}
+              setRoute={setRoute}
+              activeItem={activeItem}
+              component={Verification}
+            />
+          )}
+        </>
       )}
     </div>
   );
