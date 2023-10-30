@@ -5,6 +5,8 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { SiCoursera } from "react-icons/si";
 import { AiOutlineLogout } from "react-icons/ai";
 import { MdOutlineDashboard } from "react-icons/md";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 type SidebarProps = {
   user: any;
@@ -22,10 +24,10 @@ const SidebarProfile: FC<SidebarProps> = ({
   logoutHandler,
 }) => {
   return (
-    <div className="w-full">
+    <div className="w-full ">
       <div
         className={`w-full flex items-center px-3 py-4 cursor-pointe mt-2 ${
-          active === 1 ? "dark:bg-slate-700 bg-white" : "bg-transparent"
+          active === 1 ? "dark:bg-slate-700 bg-slate-200" : "bg-transparent"
         }`}
         onClick={() => setActive(1)}
       >
@@ -42,7 +44,7 @@ const SidebarProfile: FC<SidebarProps> = ({
       </div>
       <div
         className={`w-full flex items-center px-3 py-4 cursor-pointe mt-2 h-[65px] ${
-          active === 2 ? "dark:bg-slate-700 bg-white" : "bg-transparent"
+          active === 2 ? "dark:bg-slate-700 bg-slate-200" : "bg-transparent"
         }`}
         onClick={() => setActive(2)}
       >
@@ -53,7 +55,7 @@ const SidebarProfile: FC<SidebarProps> = ({
       </div>
       <div
         className={`w-full flex items-center px-3 py-4 cursor-pointe mt-2 h-[65px] ${
-          active === 3 ? "dark:bg-slate-700 bg-white" : "bg-transparent"
+          active === 3 ? "dark:bg-slate-700 bg-slate-200" : "bg-transparent"
         }`}
         onClick={() => setActive(3)}
       >
@@ -63,21 +65,23 @@ const SidebarProfile: FC<SidebarProps> = ({
         </h5>
       </div>
       {user.role === "admin" && (
-        <div
-          className={`w-full flex items-center px-3 py-4 cursor-pointe mt-2 h-[65px] ${
-            active === 5 ? "dark:bg-slate-700 bg-white" : "bg-transparent"
-          }`}
-          onClick={() => setActive(5)}
-        >
-          <MdOutlineDashboard size={20} />
-          <h5 className="ml-2 800px:block hidden font-Poppins text-black dark:text-white">
-            Admin dashboard
-          </h5>
-        </div>
+        <Link href="/admin">
+          <div
+            className={`w-full flex items-center px-3 py-4 cursor-pointe mt-2 h-[65px] ${
+              active === 5 ? "dark:bg-slate-700 bg-slate-200" : "bg-transparent"
+            }`}
+            onClick={() => setActive(5)}
+          >
+            <MdOutlineDashboard size={20} />
+            <h5 className="ml-2 800px:block hidden font-Poppins text-black dark:text-white">
+              Admin dashboard
+            </h5>
+          </div>
+        </Link>
       )}
       <div
         className={`w-full flex items-center px-3 py-4 cursor-pointe mt-2 h-[65px] ${
-          active === 4 ? "dark:bg-slate-700 bg-white" : "bg-transparent"
+          active === 4 ? "dark:bg-slate-700 bg-slate-200" : "bg-transparent"
         }`}
         onClick={() => logoutHandler()}
       >

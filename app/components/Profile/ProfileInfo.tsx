@@ -72,7 +72,10 @@ const ProfileInfo: FC<Props> = ({ user, avatar }) => {
           />
           <label htmlFor="avatar">
             <div className="w-[30px] h-[30px] bg-slate-900 rounded-full absolute bottom-2 right-2 flex items-center justify-center cursor-pointer">
-              <AiOutlineCamera size={20} className="z-1" />
+              <AiOutlineCamera
+                size={20}
+                className="z-1 bg-transparent text-white "
+              />
             </div>
           </label>
         </div>
@@ -86,7 +89,7 @@ const ProfileInfo: FC<Props> = ({ user, avatar }) => {
               <label className="block pb-2">Full name</label>
               <input
                 type="text"
-                className={`${styles.input} w-[95%] mb-4 800px:mb-0`}
+                className={`${styles.input} w-[95%] mb-4 800px:mb-0 border-slate-800 bg-slate-100 dark:bg-slate-400`}
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -98,7 +101,7 @@ const ProfileInfo: FC<Props> = ({ user, avatar }) => {
               <label className="block pb-2">Email address</label>
               <input
                 type="text"
-                className={`${styles.input} w-[95%] mb-4 800px:mb-0`}
+                className={`${styles.input} w-[95%] mb-4 800px:mb-0 border-slate-800 bg-slate-100 dark:bg-slate-400`}
                 required
                 value={user.email}
               />
@@ -109,7 +112,7 @@ const ProfileInfo: FC<Props> = ({ user, avatar }) => {
               type="submit"
               value="Update"
               required
-              className={`w-full 800px:w-[250px] h-[40px] border-2 ml-300 border-[#37a39a] text-black dark:text-white rounded-[3px] mt-8 cursor-pointer`}
+              className={`w-full 800px:w-[250px] h-[40px] border-2 ml-300 border-[#37a39a] text-black bg-slate-100 dark:bg-slate-400 dark:text-white rounded-[3px] mt-8 cursor-pointer`}
             />
           </div>
         </form>

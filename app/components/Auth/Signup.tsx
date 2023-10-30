@@ -13,6 +13,7 @@ import { styles } from "../styles/style";
 import { useRegisterMutation } from "@/redux/features/Auth/authApi";
 import toast from "react-hot-toast";
 import CircularProgress from "@mui/material/CircularProgress";
+import { signIn } from "next-auth/react";
 
 const schema = Yup.object().shape({
   name: Yup.string().required("Please enter your name"),
@@ -151,10 +152,15 @@ const SignUp: FC<Props> = ({ setRoute }) => {
           Or join with{" "}
         </h5>
         <div className="flex items-center justify-center my-3">
-          <FcGoogle size={30} className={`cursor-pointer mr-2`} />
+          <FcGoogle
+            size={30}
+            className={`cursor-pointer mr-2`}
+            onClick={() => signIn("google")}
+          />
           <AiOutlineGithub
             size={30}
             className={`cursor-pointer mr-2 text-black dark:text-white`}
+            onClick={() => signIn("github")}
           />
         </div>
         <h5 className="text-[14px] text-center font-Poppins pt-4 text-slate-600 dark:text-white ">

@@ -19,7 +19,6 @@ import {
 } from "@/redux/features/Auth/authApi";
 import { isUint16Array } from "util/types";
 import toast from "react-hot-toast";
-
 interface Props {
   open: boolean;
   setOpen: (data: boolean) => void;
@@ -100,7 +99,7 @@ const Header: FC<Props> = ({ activeItem, open, setOpen, route, setRoute }) => {
                     alt=""
                     width={25}
                     height={25}
-                    className="rounded-full cursor-pointer ml-3"
+                    className="w-[30px] h-[30px] rounded-full cursor-pointer ml-3"
                     style={{
                       border: activeItem === 6 ? "2px solid #ffc107" : "",
                     }}
@@ -109,6 +108,7 @@ const Header: FC<Props> = ({ activeItem, open, setOpen, route, setRoute }) => {
               ) : (
                 <HiOutlineUserCircle
                   size={25}
+                  ß
                   onClick={() => {
                     setOpen(true);
                     setRoute("Login");
