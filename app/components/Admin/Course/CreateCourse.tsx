@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import CourseInformation from "./CourseInformation";
 import CourseOption from "./CourseOption";
+import CourseData from "./CourseData";
 
 const CreateCourse = () => {
   const [active, setActive] = useState<number>(0);
@@ -35,7 +36,7 @@ const CreateCourse = () => {
 
   return (
     <div className="w-full flex min-h-screen ">
-      <div className="w-[80%]">
+      <div className="w-[80%]  ">
         {active === 0 && (
           <CourseInformation
             courseInfo={courseInfo}
@@ -44,10 +45,21 @@ const CreateCourse = () => {
             setActive={setActive}
           />
         )}
+        {active === 1 && (
+          <CourseData
+            benefits={benefits}
+            setBenefits={setBenefits}
+            prerequisites={preRequsites}
+            setPrerequsities={setPrerequsites}
+            active={active}
+            setActive={setActive}
+          />
+        )}
       </div>
-      <div className="w-[20%] mt-[100px] ml-[500px]  h-screen fixed top-18 r-0 ">
+
+      {/* <div className="w-[-20%] mt-[100px]   h-screen fixed top-18 r-0 ">
         <CourseOption active={active} setActive={setActive} />
-      </div>
+      </div> */}
     </div>
   );
 };
