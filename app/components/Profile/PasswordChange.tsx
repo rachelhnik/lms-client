@@ -63,7 +63,7 @@ const PasswordChange = () => {
             <label className="nlock pb-2">Confirm your new password</label>
             <input
               type="password"
-              className={`${styles.input} w-[95%] mb-4 800px:mb-0 border-slate-800 bg-slate-100 dark:bg-slate-400`}
+              className={`${styles.input} w-[95%] mb-4 800px:mb-0 border-slate-800 bg-slate-200 dark:bg-slate-400`}
               required
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
