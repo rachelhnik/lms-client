@@ -93,15 +93,15 @@ const CourseData: FC<Props> = ({
           style={{ cursor: "pointer", margin: "10px 0px", width: "30px" }}
           onClick={handleAddPrerequsite}
         />
-        <div className="w-full flex items-center justify-center">
+        <div className="w-full flex items-center justify-between">
           <div
-            className="w-full 800px:[w-180px] h-[40px] bg-[#37a39a]  text-center text-white rounded mt-8 cursor-pointer"
+            className="w-full 800px:[w-180px] h-[40px] bg-[#37a39a] mx-2 pt-2  text-center text-white rounded mt-8 cursor-pointer"
             onClick={() => prevBtn()}
           >
             Prev
           </div>
           <div
-            className="w-full 800px:[w-180px] h-[40px] bg-[#37a39a] text-center text-white rounded mt-8 cursor-pointer"
+            className="w-full 800px:[w-180px] h-[40px] bg-[#37a39a] mx-2 pt-2 text-center text-white rounded mt-8 cursor-pointer"
             onClick={() => handleOptions()}
           >
             Next

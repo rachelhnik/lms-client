@@ -15,6 +15,7 @@
     "@mui/material": "^5.14.15",
     "@mui/styled-engine-sc": "^6.0.0-alpha.3",
     "@reduxjs/toolkit": "^1.9.7",
+    "axios": "^1.6.0",
     "formik": "^2.4.5",
     "next": "13.5.4",
     "next-auth": "^4.24.4",
