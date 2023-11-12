@@ -5,11 +5,9 @@ import {
   AiOutlineEyeInvisible,
   AiOutlineGithub,
 } from "react-icons/ai";
-
 import { FcGoogle } from "react-icons/fc";
 import { useFormik } from "formik";
 import { styles } from "../styles/style";
-import CircularProgress from "@mui/material/CircularProgress";
 import { useLoginMutation } from "@/redux/features/Auth/authApi";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
@@ -30,14 +28,12 @@ type Props = {
 const Login: FC<Props> = ({ setRoute, setOpen, route, open, activeItem }) => {
   const { user } = useSelector((state: any) => state.auth);
   const [show, setShow] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [login, { isSuccess, error }] = useLoginMutation();
 
   const formik = useFormik({
     initialValues: { email: "", password: "" },
     validationSchema: schema,
     onSubmit: async ({ email, password }) => {
-      setLoading(true);
       await login({ email, password });
     },
   });
@@ -50,7 +46,7 @@ const Login: FC<Props> = ({ setRoute, setOpen, route, open, activeItem }) => {
     if (error) {
       if ("data" in error) {
         const errorData = error as any;
-        toast.error(errorData.data.message);
+        toast.error("invalid email or password");
       } else {
         console.log("error", error);
       }
@@ -85,7 +81,7 @@ const Login: FC<Props> = ({ setRoute, setOpen, route, open, activeItem }) => {
         </label>
         <div className="relative ">
           <input
-            type="password"
+            type={show ? "text" : "password"}
             name=""
             value={values.password}
             onChange={handleChange}
@@ -96,16 +92,16 @@ const Login: FC<Props> = ({ setRoute, setOpen, route, open, activeItem }) => {
             } ${styles.input}`}
           />
 
-          {show ? (
+          {show === false ? (
             <AiOutlineEyeInvisible
-              onClick={() => setShow(false)}
+              onClick={() => setShow(true)}
               size={20}
               className={`text-black absolute bottom-5  r-2 ml-[380px] z-1 cursor-pointer`}
             />
           ) : (
             <AiOutlineEye
               size={20}
-              onClick={() => setShow(true)}
+              onClick={() => setShow(false)}
               className={`text-black absolute bottom-5 r-2  ml-[380px] z-1 cursor-pointer`}
             />
           )}
@@ -116,14 +112,7 @@ const Login: FC<Props> = ({ setRoute, setOpen, route, open, activeItem }) => {
           )}
         </div>
         <div className="w-full mt-5">
-          {loading ? (
-            <button className={`${styles.button}`}>
-              {" "}
-              <CircularProgress sx={{ width: "10px", height: "10px" }} />
-            </button>
-          ) : (
-            <input type="submit" value="Login" className={`${styles.button}`} />
-          )}
+          <input type="submit" value="Login" className={`${styles.button}`} />
         </div>
         <br />
         <h5 className="text-[14px] text-center font-Poppins pt-4 text-slate-600 dark:text-white ">

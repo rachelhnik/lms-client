@@ -8,7 +8,7 @@ type Props = {
   active: number;
   setActive: (active: number) => void;
   courseData: any;
-  handleCourseCreate: () => void;
+  handleCourseCreate: (e: any) => void;
 };
 
 const CoursePreview: FC<Props> = ({
@@ -25,13 +25,13 @@ const CoursePreview: FC<Props> = ({
   const prevBtn = () => {
     setActive(active - 1);
   };
-  const createCourse = () => {
-    handleCourseCreate();
+  const createCourse = (e: any) => {
+    handleCourseCreate(e);
   };
   return (
     <div className="w-[90%] m-auto py-5 mb-5">
       <div className="w-full relative">
-        <div className="w-full mt-10">
+        <div className="w-full">
           <CoursePlayer
             title={courseData.title}
             videoUrl={courseData.CourseContent[0].videoUrl}
@@ -129,7 +129,7 @@ const CoursePreview: FC<Props> = ({
         </div>
         <div
           className="w-full 800px:[w-180px] h-[40px] bg-[#37a39a] mx-2 pt-2 text-center text-white rounded mt-8 cursor-pointer"
-          onClick={() => createCourse()}
+          onClick={(e) => createCourse(e)}
         >
           Create
         </div>

@@ -3,7 +3,6 @@ import { Box, IconButton, Typography } from "@mui/material";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { FC, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import {
   AnalyticsIcon,
@@ -24,6 +23,12 @@ import {
 import Image from "next/image";
 import userProfile from "../../../../public/userProfile.png";
 import { Category } from "@mui/icons-material";
+import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getSelectedNmae,
+  setSelectedName,
+} from "@/redux/features/sidebar/AdminSidebarSlice";
 
 interface ItemProps {
   title: string;
@@ -31,23 +36,42 @@ interface ItemProps {
   icon: JSX.Element;
   selected: string;
   setSelected: any;
+  router: any;
 }
 
-const Item: FC<ItemProps> = ({ title, to, icon, selected, setSelected }) => {
-  console.log("selected", selected);
+const Item: FC<ItemProps> = ({
+  title,
+  to,
+  icon,
+  selected,
+  setSelected,
+  router,
+}) => {
+  const dispatch = useDispatch();
+  const name = useSelector(getSelectedNmae);
+
   return (
-    <Link href={to}>
-      <MenuItem
-        active={selected === title}
-        onClick={() => setSelected(title)}
-        icon={icon}
-        className="text-black dark:text-slate-300"
-      >
-        <Typography className="!text-[16px] text-black dark:text-slate-300 !font-Poppins">
-          {title}
-        </Typography>
-      </MenuItem>
-    </Link>
+    <div className="hello">
+      <Link href={to}>
+        <MenuItem
+          active={name === title ? true : false}
+          onClick={(e: any) => {
+            e.preventDefault();
+            setSelected(title);
+            dispatch(setSelectedName(title));
+            router.push(to);
+          }}
+          icon={icon}
+          className={`text-slate-700 dark:text-slate-300  ${
+            name === title ? "border-2 border-blue-400" : ""
+          }`}
+        >
+          <Typography className="!text-[16px] hello text-black dark:text-slate-300 !font-Poppins">
+            {title}
+          </Typography>
+        </MenuItem>
+      </Link>
+    </div>
   );
 };
 
@@ -59,18 +83,21 @@ const AdminSidebar: FC<any> = ({ user }) => {
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
 
+  const router = useRouter();
   useEffect(() => {
     setMounted(true);
   }, []);
+
   return (
     <Box
       sx={{
         "& .ps-sidebar-container": {
-          backgroundColor: `${theme === "dark" ? "#111C43" : ""}`,
+          backgroundColor: `${theme === "dark" ? "#111C43" : "white"}`,
         },
-        "& .ps-menuitem-root:hover": {},
+        // "& .ps-menuitem-root:hover": { color: "black", background: "blue" },
+        // "& .ps-menu-label:hover": { text : "black" },
       }}
-      className="bg-white dark:bg-slate-900"
+      //className="bg-white dark:bg-slate-900"
     >
       <Sidebar
         collapsed={collapse}
@@ -88,7 +115,7 @@ const AdminSidebar: FC<any> = ({ user }) => {
             onClick={() => setCollapse(!collapse)}
             icon={
               collapse ? (
-                <ArrowForwardIcon className="text-black dark:text-slate-300 color-slate-300 wrapclass" />
+                <ArrowForwardIcon className="text-slate-700 dark:text-slate-300 color-slate-300 wrapclass" />
               ) : undefined
             }
             style={{ margin: "10px 0px 20px 0px" }}
@@ -106,10 +133,10 @@ const AdminSidebar: FC<any> = ({ user }) => {
                   className="inline-block "
                   onClick={() => setCollapse(!collapse)}
                 >
-                  <ArrowBackIcon className="text-black dark:text-slate-300 color-slate-300 " />
+                  <ArrowBackIcon className="text-slate-700 dark:text-slate-300 color-slate-300 " />
                 </IconButton>
                 <Link href="/">
-                  <h3 className="text-[25px] font-Poppins uppercase  text-black dark:text-slate-300">
+                  <h3 className="text-[25px] font-Poppins uppercase  text-slate-700 dark:text-slate-300">
                     ELearning
                   </h3>
                 </Link>
@@ -137,14 +164,14 @@ const AdminSidebar: FC<any> = ({ user }) => {
               <Box textAlign="center">
                 <Typography
                   variant="h4"
-                  className="text-[20px] text-black dark:text-slate-300 "
+                  className="text-[20px] text-slate-700 dark:text-slate-300 "
                   sx={{ m: "10px 0 0 0" }}
                 >
                   {user.name}
                 </Typography>
                 <Typography
                   variant="h4"
-                  className="text-[20px] text-black dark:text-slate-300 "
+                  className="text-[20px] text-slate-700 dark:text-slate-300 "
                   sx={{ m: "10px 0 0 0" }}
                 >
                   {user.role}
@@ -159,11 +186,12 @@ const AdminSidebar: FC<any> = ({ user }) => {
               icon={<GridViewIcon />}
               selected={selected}
               setSelected={setSelected}
+              router={router}
             />
             <Typography
               variant="h5"
               sx={{ margin: "15px 0px 5px 25px" }}
-              className="text-[18px] text-black dark:text-slate-300  capitalize font-400"
+              className="text-[18px] text-slate-700 dark:text-slate-300  capitalize font-400"
             >
               {!collapse && "Data"}
             </Typography>
@@ -173,6 +201,7 @@ const AdminSidebar: FC<any> = ({ user }) => {
               icon={<PeopleIcon />}
               selected={selected}
               setSelected={setSelected}
+              router={router}
             />
             <Item
               title="Invoices"
@@ -180,11 +209,12 @@ const AdminSidebar: FC<any> = ({ user }) => {
               icon={<ReceiptIcon />}
               selected={selected}
               setSelected={setSelected}
+              router={router}
             />
             <Typography
               variant="h5"
               sx={{ margin: "15px 0px 5px 25px" }}
-              className="text-[18px] text-black dark:text-slate-300  capitalize font-400"
+              className="text-[18px] text-slate-700 dark:text-slate-300  capitalize font-400"
             >
               {!collapse && "Content"}
             </Typography>
@@ -194,6 +224,7 @@ const AdminSidebar: FC<any> = ({ user }) => {
               icon={<QueueIcon />}
               selected={selected}
               setSelected={setSelected}
+              router={router}
             />
             <Item
               title="Live courses"
@@ -201,11 +232,12 @@ const AdminSidebar: FC<any> = ({ user }) => {
               icon={<VideoCallIcon />}
               selected={selected}
               setSelected={setSelected}
+              router={router}
             />
             <Typography
               variant="h5"
               sx={{ margin: "15px 0px 5px 25px" }}
-              className="text-[18px] text-black dark:text-slate-300  capitalize font-400"
+              className="text-[18px] text-slate-700 dark:text-slate-300  capitalize font-400"
             >
               {!collapse && "Customization"}
             </Typography>
@@ -215,6 +247,7 @@ const AdminSidebar: FC<any> = ({ user }) => {
               icon={<BeenhereIcon />}
               selected={selected}
               setSelected={setSelected}
+              router={router}
             />
             <Item
               title="FAQ"
@@ -222,6 +255,7 @@ const AdminSidebar: FC<any> = ({ user }) => {
               icon={<QuizIcon />}
               selected={selected}
               setSelected={setSelected}
+              router={router}
             />
             <Item
               title="Categories"
@@ -229,11 +263,12 @@ const AdminSidebar: FC<any> = ({ user }) => {
               icon={<Category />}
               selected={selected}
               setSelected={setSelected}
+              router={router}
             />
             <Typography
               variant="h5"
               sx={{ margin: "15px 0px 5px 25px" }}
-              className="text-[18px] text-black dark:text-slate-300  capitalize font-400"
+              className="text-[18px] text-slate-700 dark:text-slate-300  capitalize font-400"
             >
               {!collapse && "Controllers"}
             </Typography>
@@ -243,11 +278,12 @@ const AdminSidebar: FC<any> = ({ user }) => {
               icon={<WorkspacesIcon />}
               selected={selected}
               setSelected={setSelected}
+              router={router}
             />
             <Typography
               variant="h5"
               sx={{ margin: "15px 0px 5px 25px" }}
-              className="text-[18px] text-black dark:text-slate-300  capitalize font-400"
+              className="text-[18px] text-slate-700 dark:text-slate-300  capitalize font-400"
             >
               {!collapse && "Analytics"}
             </Typography>
@@ -257,6 +293,7 @@ const AdminSidebar: FC<any> = ({ user }) => {
               icon={<AnalyticsIcon />}
               selected={selected}
               setSelected={setSelected}
+              router={router}
             />
             <Item
               title="Order analytics"
@@ -264,6 +301,7 @@ const AdminSidebar: FC<any> = ({ user }) => {
               icon={<EqualizerIcon />}
               selected={selected}
               setSelected={setSelected}
+              router={router}
             />
             <Item
               title="User analytics"
@@ -271,11 +309,12 @@ const AdminSidebar: FC<any> = ({ user }) => {
               icon={<DataUsageIcon />}
               selected={selected}
               setSelected={setSelected}
+              router={router}
             />
             <Typography
               variant="h5"
               sx={{ margin: "15px 0px 5px 25px" }}
-              className="text-[18px] text-black dark:text-slate-300  capitalize font-400"
+              className="text-[18px] text-slate-700 dark:text-slate-300  capitalize font-400"
             >
               {!collapse && "Extras"}
             </Typography>

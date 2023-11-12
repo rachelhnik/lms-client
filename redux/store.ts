@@ -3,11 +3,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { apiSlice } from "./features/api/apiSlice";
 import authSlice from "./features/Auth/authSlice";
+import AdminSidebarSlice from "./features/sidebar/AdminSidebarSlice";
 
 export const store = configureStore({
   reducer: {
-    [apiSlice.reducerPath]: apiSlice.reducer,
     auth: authSlice,
+    adminSidebar: AdminSidebarSlice,
+    [apiSlice.reducerPath]: apiSlice.reducer,
   },
   devTools: false,
   middleware: (getDefaultMiddleware) =>
@@ -17,7 +19,6 @@ export const store = configureStore({
 //call the refresh token function on every page laod
 
 const initializeApp = async () => {
-  console.log("initialized");
   await store.dispatch(
     apiSlice.endpoints.refreshToken.initiate({}, { forceRefetch: true })
   );

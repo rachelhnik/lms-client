@@ -1,8 +1,9 @@
 "use client";
-import CreateCourse from "@/app/components/Admin/Course/CreateCourse";
-import DashboardHeader from "@/app/components/Admin/Dashboard/DashboardHeader";
-import AdminSidebar from "@/app/components/Admin/Sidebar/AdminSidebar";
-import Heading from "@/app/utils/Heading";
+
+import DashboardHeader from "../../../app/components/Admin/Dashboard/DashboardHeader";
+import AdminSidebar from "../../../app/components/Admin/Sidebar/AdminSidebar";
+import AllUsers from "../../../app/components/Admin/Users/AllUsers";
+import Heading from "../../../app/utils/Heading";
 import React, { FC, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -22,7 +23,7 @@ const Page: FC = () => {
         </div>
         <div className="w-[100%] ">
           <DashboardHeader />
-          <CreateCourse />
+          <AllUsers isTeam={false} />
         </div>
       </div>
     </div>

@@ -30,15 +30,15 @@ const Hero: FC<Props> = () => {
           <br></br>
           <p>We have 40k+ online classes and 100k+ reviews.</p>
           <p> Find your suitable class now.</p>
-          <div className="mt-4 flex 400px:min-w-[300px]">
+          <form className="mt-4 flex 400px:min-w-[300px]">
             <input
               placeholder="Search classes"
-              className="w-[300px] h-14 rounded-s-md p-2 dark:bg-slate-300  light:border-2  text-slate-600 dark:text-slate-600 "
+              className="w-[300px] h-14 rounded-s-md p-2 dark:bg-slate-300 border-blue-300 border-2   text-slate-600 dark:text-slate-600 "
             />
-            <button className="h-14 w-10  border-l-2 border-blue dark:bg-slate-300 light:border-2 bg-white text-slate-600 dark:text-slate-600 rounded-e-md focus:ring-4 focus:ring-inset focus:ring-darkBlue ">
+            <button className="h-14 w-10   border-blue dark:bg-slate-300 light:border-2 bg-blue-300 text-slate-600 dark:text-slate-600 rounded-e-md focus:ring-2 focus:ring-inset focus:ring-darkBlue ">
               <AiOutlineSearch className="text-[30px] text-center mt-2 ml-1" />
             </button>
-          </div>
+          </form>
           <div className="max-400px:flex-col flex mt-2">
             <p>500K+ people already trusted us.</p>
             <p className="text-green-600">View courses</p>

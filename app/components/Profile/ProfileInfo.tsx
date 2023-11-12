@@ -9,6 +9,7 @@ import {
   useUpdateAvatarMutation,
   useUpdateUserDataMutation,
 } from "@/redux/features/User/userApi";
+import toast from "react-hot-toast";
 
 type Props = {
   user: any;
@@ -37,9 +38,11 @@ const ProfileInfo: FC<Props> = ({ user, avatar }) => {
 
   useEffect(() => {
     if (isSuccess || success) {
+      toast.success("updated successfully");
       setLoadUser(true);
     }
     if (error || Error) {
+      toast.error("something went wrong");
       console.log(error);
     }
   }, [isSuccess, error, success, Error]);

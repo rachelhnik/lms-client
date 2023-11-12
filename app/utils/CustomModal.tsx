@@ -24,7 +24,7 @@ const CustomModal: FC<Props> = ({
       aria-describedby="modal-modal-description"
     >
       <Box
-        className={`absolute top-[50%] left-[50%] w-[450px] -translate-x-1/2 -translate-y-1/2 rounded-[8px] bg-white dark:bg-slate-800 shadow p-4 outline-none`}
+        className={` absolute top-[50%] left-[50%] w-[400px] -translate-x-1/2 -translate-y-1/2 rounded-[8px] bg-white dark:bg-slate-800 shadow p-4 outline-none`}
       >
         <Component setOpen={setOpen} setRoute={setRoute} />
       </Box>

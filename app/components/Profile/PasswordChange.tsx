@@ -25,7 +25,7 @@ const PasswordChange = () => {
     if (error) {
       if ("data" in error) {
         const errorData = error as any;
-        toast.error(errorData.data.message);
+        toast.error("something went wrong");
       }
     }
   }, [isSuccess, error]);
@@ -69,12 +69,12 @@ const PasswordChange = () => {
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
           </div>
-          <div className="800px:w-[60%] m-auto  block pb-4">
+          <div className="w-[100%] 800px:w-[60%] m-auto  block pb-4">
             <input
               type="submit"
               value="Update"
               required
-              className={`w-full 800px:w-[250px] h-[40px] border-2 m-auto border-[#37a39a] text-black dark:text-white rounded-[3px] bg-slate-100 dark:bg-slate-400 mt-8 cursor-pointer`}
+              className={`w-full 800px:w-[250px]  h-[40px] border-2 m-auto border-[#37a39a] text-black dark:text-white rounded-[3px] bg-slate-100 dark:bg-slate-400 mt-8 cursor-pointer`}
             />
           </div>
         </form>

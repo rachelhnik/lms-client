@@ -9,20 +9,20 @@ type Props = {
 
 const CoursePlayer: FC<Props> = ({ title, videoUrl }) => {
   const [videoData, setVideoData] = useState({ otp: "", playbackInfo: "" });
-  console.log("url", videoUrl);
   useEffect(() => {
     axios
       .post(`${process.env.NEXT_PUBLIC_SERVER_URI}/courses/getVideoCipherOtp`, {
-        videoId: "ebc363210f520059880149ca349de600",
+        videoId: videoUrl,
       })
       .then((res) => {
         setVideoData(res.data);
       });
   }, [videoUrl]);
+  console.log("vd", videoData);
 
   return (
     <div style={{ paddingTop: "41%", position: "relative" }}>
-      {videoData.otp && videoData.playbackInfo == "" && (
+      {videoData.otp && videoData.playbackInfo && (
         <iframe
           src={`https://player.vdocipher.com/v2/?otp=${videoData.otp}&playbackInfo=${videoData.playbackInfo}`}
           style={{

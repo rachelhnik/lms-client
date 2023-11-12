@@ -1,6 +1,4 @@
 "use client";
-
-import Image from "next/image";
 import Heading from "./utils/Heading";
 import { FC, useState } from "react";
 import Header from "./components/Header";

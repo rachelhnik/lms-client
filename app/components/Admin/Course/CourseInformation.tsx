@@ -57,7 +57,7 @@ const CourseInformation: FC<Props> = ({
     }
   };
   return (
-    <div className="w-[80%] m-auto mt-[24px]">
+    <div className="w-[80%] m-auto mt-[24px] ml-2 ">
       <form className={`${styles.label}`} onSubmit={handleSubmit}>
         <label htmlFor="">Course Name</label>
         <input
@@ -141,7 +141,7 @@ const CourseInformation: FC<Props> = ({
           <div className="w-[45%]">
             <label htmlFor="">Course level</label>
             <input
-              type="number"
+              type="text"
               name=""
               required
               placeholder="beginner/intermediate/advance"
@@ -156,7 +156,7 @@ const CourseInformation: FC<Props> = ({
           <div className="w-[50%]">
             <label htmlFor="">Demo Url</label>
             <input
-              type="number"
+              type="text"
               name=""
               required
               placeholder="eer79fd"
