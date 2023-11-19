@@ -9,6 +9,7 @@ type Props = {
   setActive: (active: number) => void;
   courseData: any;
   handleCourseCreate: (e: any) => void;
+  isEdit?: boolean;
 };
 
 const CoursePreview: FC<Props> = ({
@@ -16,6 +17,7 @@ const CoursePreview: FC<Props> = ({
   setActive,
   courseData,
   handleCourseCreate,
+  isEdit,
 }) => {
   const discountPercentage =
     ((courseData.estimatedPrice - courseData.price) /
@@ -28,13 +30,14 @@ const CoursePreview: FC<Props> = ({
   const createCourse = (e: any) => {
     handleCourseCreate(e);
   };
+
   return (
     <div className="w-[90%] m-auto py-5 mb-5">
       <div className="w-full relative">
         <div className="w-full">
           <CoursePlayer
-            title={courseData.title}
-            videoUrl={courseData.CourseContent[0].videoUrl}
+            title={courseData.courseData[0].title}
+            videoUrl={courseData.courseData[0].videoUrl}
           />
         </div>
         <div className=" flex items-center">
@@ -101,7 +104,7 @@ const CoursePreview: FC<Props> = ({
         ))}
         <br />
         <br />
-        {courseData.preRequsites.map((prerequisite: any, index: number) => (
+        {courseData.prerequsites.map((prerequisite: any, index: number) => (
           <div className="w-full flex 800px:items-center py-2" key={index}>
             <div className="w-15px mr-1">
               <IoMdCheckmarkCircleOutline size={20} />
@@ -131,7 +134,7 @@ const CoursePreview: FC<Props> = ({
           className="w-full 800px:[w-180px] h-[40px] bg-[#37a39a] mx-2 pt-2 text-center text-white rounded mt-8 cursor-pointer"
           onClick={(e) => createCourse(e)}
         >
-          Create
+          {isEdit ? "Update" : "Create"}
         </div>
       </div>
     </div>

@@ -23,9 +23,10 @@ const CourseContent: FC<Props> = ({
   handleSubmit: handleCourseSubmit,
 }) => {
   const [isCollapsed, setIsCollapsed] = useState(
-    Array(courseContentData.length).fill(false)
+    courseContentData && Array(courseContentData.length).fill(false)
   );
-  console.log("title", courseContentData[0].title);
+
+  console.log("i", courseContentData);
   const [activeSection, setActiveSection] = useState(1);
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -45,6 +46,10 @@ const CourseContent: FC<Props> = ({
 
   const handleAddLink = (index: number) => {
     const updatedData = [...courseContentData];
+    updatedData[index] = {
+      ...updatedData[index],
+      links: [...updatedData[index].links],
+    };
     updatedData[index].links.push({ title: "", url: "" });
     setCourseContentData(updatedData);
   };
@@ -103,7 +108,6 @@ const CourseContent: FC<Props> = ({
     ) {
       toast.error("Please fill all fields first");
     } else {
-      console.log("HIIIIII");
       setActiveSection(activeSection + 1);
       const newContentData = {
         title: "",
@@ -163,6 +167,7 @@ const CourseContent: FC<Props> = ({
                         value={item.videoSection}
                         onChange={(e) => {
                           const updatedData = [...courseContentData];
+
                           updatedData[index].videoSection = e.target.value;
                           setCourseContentData(updatedData);
                         }}
@@ -227,7 +232,11 @@ const CourseContent: FC<Props> = ({
                         value={item.title}
                         onChange={(e) => {
                           const updatedData = [...courseContentData];
-                          updatedData[index].title = e.target.value;
+
+                          updatedData[index] = {
+                            ...updatedData[index],
+                            title: e.target.value,
+                          };
                           setCourseContentData(updatedData);
                         }}
                         className={`${styles.input}`}
@@ -241,7 +250,10 @@ const CourseContent: FC<Props> = ({
                         value={item.videoUrl}
                         onChange={(e) => {
                           const updatedData = [...courseContentData];
-                          updatedData[index].videoUrl = e.target.value;
+                          updatedData[index] = {
+                            ...updatedData[index],
+                            videoUrl: e.target.value,
+                          };
                           setCourseContentData(updatedData);
                         }}
                         className={`${styles.input}`}
@@ -258,7 +270,10 @@ const CourseContent: FC<Props> = ({
                         value={item.description}
                         onChange={(e) => {
                           const updatedData = [...courseContentData];
-                          updatedData[index].description = e.target.value;
+                          updatedData[index] = {
+                            ...updatedData[index],
+                            description: e.target.value,
+                          };
                           setCourseContentData(updatedData);
                         }}
                         className={`${styles.input} !h-min pt-2`}
@@ -289,8 +304,15 @@ const CourseContent: FC<Props> = ({
                           value={link.title}
                           onChange={(e) => {
                             const updatedData = [...courseContentData];
-                            updatedData[index].links[linkIndex].title =
-                              e.target.value;
+                            updatedData[index] = {
+                              ...updatedData[index],
+                              links: [...updatedData[index].links],
+                            };
+                            updatedData[index].links[linkIndex] = {
+                              ...updatedData[index].links[linkIndex],
+                              title: e.target.value,
+                            };
+
                             setCourseContentData(updatedData);
                           }}
                           className={`${styles.input}`}
@@ -301,8 +323,15 @@ const CourseContent: FC<Props> = ({
                           value={link.url}
                           onChange={(e) => {
                             const updatedData = [...courseContentData];
-                            updatedData[index].links[linkIndex].url =
-                              e.target.value;
+
+                            updatedData[index] = {
+                              ...updatedData[index],
+                              links: [...updatedData[index].links],
+                            };
+                            updatedData[index].links[linkIndex] = {
+                              ...updatedData[index].links[linkIndex],
+                              url: e.target.value,
+                            };
                             setCourseContentData(updatedData);
                           }}
                           className={`${styles.input}`}

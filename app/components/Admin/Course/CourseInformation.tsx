@@ -56,6 +56,7 @@ const CourseInformation: FC<Props> = ({
       reader.readAsDataURL(file);
     }
   };
+
   return (
     <div className="w-[80%] m-auto mt-[24px] ml-2 ">
       <form className={`${styles.label}`} onSubmit={handleSubmit}>
@@ -189,7 +190,7 @@ const CourseInformation: FC<Props> = ({
           >
             {courseInfo.thumbnail ? (
               <Image
-                src={courseInfo.thumbnail}
+                src={courseInfo.thumbnail.url || courseInfo.thumbnail}
                 alt=""
                 width={200}
                 height={200}

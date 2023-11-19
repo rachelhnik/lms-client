@@ -21,16 +21,21 @@ const CourseData: FC<Props> = ({
 }) => {
   const handleBenefitChange = (index: number, value: string) => {
     const updatedBenefits = [...benefits];
-    updatedBenefits[index].title = value;
+
+    updatedBenefits[index] = { ...updatedBenefits[index], title: value };
     setBenefits(updatedBenefits);
   };
+
   const handleAddBenefit = () => {
     setBenefits([...benefits, { title: "" }]);
   };
 
   const handlePrerequsiteChange = (index: number, value: string) => {
     const updatedPrerequsites = [...prerequisites];
-    updatedPrerequsites[index].title = value;
+    updatedPrerequsites[index] = {
+      ...updatedPrerequsites[index],
+      title: value,
+    };
     setPrerequsities(updatedPrerequsites);
   };
   const handleAddPrerequsite = () => {
@@ -59,7 +64,7 @@ const CourseData: FC<Props> = ({
           What are the benefits for students in this course?
         </label>
         <br />
-        {benefits.map((benefit: any, index: number) => (
+        {benefits?.map((benefit: any, index: number) => (
           <input
             type="text"
             key={index}
@@ -78,7 +83,7 @@ const CourseData: FC<Props> = ({
           What are the prerequsities for starting this course?
         </label>
         <br />
-        {prerequisites.map((prerequsite: any, index: number) => (
+        {prerequisites?.map((prerequsite: any, index: number) => (
           <input
             type="text"
             key={index}
