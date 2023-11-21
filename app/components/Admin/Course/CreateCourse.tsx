@@ -33,6 +33,7 @@ const CreateCourse = () => {
     description: "",
     price: 0,
     thumbnail: "",
+    categories: "",
     tags: "",
     level: "",
     demoUrl: "",
@@ -45,6 +46,7 @@ const CreateCourse = () => {
       title: "hello",
       description: "",
       videoUrl: "",
+      videoLength: "0",
       videoThumbnail: "",
       videoSection: "untitled section",
       suggestion: "",
@@ -68,6 +70,7 @@ const CreateCourse = () => {
       (courseContent) => ({
         title: courseContent.title,
         description: courseContent.description,
+        videoLength: courseContent.videoLength,
         videoUrl: courseContent.videoUrl,
         videoSection: courseContent.videoSection,
         links: courseContent.links.map((link) => ({
@@ -79,6 +82,7 @@ const CreateCourse = () => {
 
     const data = {
       name: courseInfo.name,
+      categories: courseInfo.categories,
       description: courseInfo.description,
       price: courseInfo.price,
       thumbnail: courseInfo.thumbnail,
