@@ -1,16 +1,20 @@
 "use client";
 import ThemeSwitcher from "@/app/utils/ThemeSwitcher";
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import { IoMdNotificationsOutline } from "react-icons/io";
 
-const DashboardHeader = () => {
-  const [open, setOpen] = useState(false);
+type Props = {
+  open?: boolean;
+  setOpen?: (data: boolean) => void;
+};
+
+const DashboardHeader: FC<Props> = ({ open, setOpen }) => {
   return (
     <div className="w-full flex items-center justify-end p-6 fixed top-5 right-0 ">
       <ThemeSwitcher />
       <div
         className="relative cursor-pointer m-2"
-        onClick={() => setOpen(!open)}
+        onClick={() => (setOpen ? setOpen(!open) : "")}
       >
         <IoMdNotificationsOutline className="text-2xl cursor-pointer text-black dark:text-slate-300" />
         <span className="absolute -top-2 -right-2 bg-blue-200 rounded-full w-[20px] h-[20px] text-[12px] text-black flex items-center justify-center">
