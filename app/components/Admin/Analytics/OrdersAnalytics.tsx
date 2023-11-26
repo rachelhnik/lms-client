@@ -20,7 +20,6 @@ type Props = {
 
 const OrdersAnalytics: FC<Props> = ({ isDashboard }) => {
   const { data, isLoading } = useGetOrdersAnalyticsQuery({});
-  console.log("orders", data);
   const analyticsData: { name: string; count: number }[] = [];
 
   data &&

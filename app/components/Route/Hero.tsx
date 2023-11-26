@@ -3,20 +3,21 @@
 import { FC } from "react";
 import Image from "next/image";
 import { AiOutlineSearch } from "react-icons/ai";
+import { useGetHeroDataQuery } from "@/redux/features/layout/LayoutApi";
 
 interface Props {}
 
 const Hero: FC<Props> = () => {
+  const { data, refetch } = useGetHeroDataQuery("Banner", {});
+
   return (
-    <div className="bg-white dark:bg-slate-800 w-full h-screen 1000px:flex items-center">
+    <div className=" dark:bg-slate-800 w-full h-auto 1000px:flex items-center">
       <div
-        className={`w-full  max-400px:flex-col flex justify-center items-center`}
+        className={`w-full   max-400px:flex-col flex justify-center items-center`}
       >
-        <div className="1000px:w-[40%] 1000px:h-screen min-w-[50%]  flex items-start justify-end z-10 m-auto 800px:mt-[180px] rounded ">
+        <div className="1000px:w-[40%] 1000px:h-[80%] min-w-[50%]  flex items-start justify-end z-10 m-auto 800px:mt-[180px] rounded ">
           <Image
-            src={
-              "https://www.distancelearningcollege.co.uk/wp-content/uploads/2022/02/Online-learning-scaled.jpg"
-            }
+            src={data?.layout?.banner?.image.url}
             alt="img"
             width={500}
             height={200}
@@ -25,11 +26,11 @@ const Hero: FC<Props> = () => {
         </div>
         <div className=" max-400px:w-[90%] w-[50%] text-slate-600 min-800px:h-screen  dark:text-slate-400 max-400px:mt-[0px] flex flex-col justify-center items-start m-auto 800px:mt-[220px] mx-3 ">
           <h1 className="text-[40px] 400px:w-[90%] 800px:w-[70%]">
-            Improve your online learning experience better instantly
+            {data?.layout?.banner?.title}
           </h1>
           <br></br>
-          <p>We have 40k+ online classes and 100k+ reviews.</p>
-          <p> Find your suitable class now.</p>
+          <p>{data?.layout?.banner?.subtitle}</p>
+
           <form className="mt-4 flex 400px:min-w-[300px]">
             <input
               placeholder="Search classes"
