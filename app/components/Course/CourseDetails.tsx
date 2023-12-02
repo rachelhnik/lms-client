@@ -1,29 +1,37 @@
 "use client";
 import { RootState } from "@reduxjs/toolkit/query";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { useSelector } from "react-redux";
 import Ratings from "../Admin/Course/Ratings";
-import { IoMdCheckmarkCircleOutline } from "react-icons/io";
+import {
+  IoMdCheckmarkCircleOutline,
+  IoMdCloseCircleOutline,
+} from "react-icons/io";
 import CoursePlayer from "../Admin/Course/CoursePlayer";
 import { styles } from "../styles/style";
 import Link from "next/link";
 import CourseContentList from "./CourseContentList";
+import { Elements } from "@stripe/react-stripe-js";
+import CheckoutForm from "../Payment/CheckoutForm";
 
 type Props = {
   data: any;
+  stripePromise: any;
+  clientSecret: string;
 };
 
-const CourseDetails: FC<Props> = ({ data }) => {
+const CourseDetails: FC<Props> = ({ data, clientSecret, stripePromise }) => {
   const { user } = useSelector((state: any) => state.auth);
-  console.log("USER", user);
-  console.log("DATA", data);
+  const [open, setOpen] = useState(false);
   const discountPercentage =
     (data?.estimatedPrice - data?.price / data?.estimatedPrice) * 100;
   const discountPrecentagePrice = discountPercentage.toFixed(0);
 
   const isPurchased =
     user && user.courses.find((course) => course._id === data._id);
-  const handleOrder = () => {};
+  const handleOrder = () => {
+    setOpen(true);
+  };
   return (
     <div>
       <div className="w-[90%] m-auto py-5">
@@ -32,17 +40,17 @@ const CourseDetails: FC<Props> = ({ data }) => {
             <h1 className="dark:text-white text-black text-[600] text-[25px] font-Poppins">
               {data?.name}
             </h1>
-            <div className="flex items-center">
+            {/* <div className="flex items-center">
               <Ratings rating={data?.ratings} />
               <h5 className="text-black dark:text-white">
                 {data?.reviews.length}
               </h5>
-            </div>
-            <h5 className="text-black dark:text-white">
+            </div> */}
+            {/* <h5 className="text-black dark:text-white">
               {data?.purchased.length
                 ? `${data?.purchased.length} Students`
                 : "0 Student"}
-            </h5>
+            </h5> */}
             <br />
             <h1 className="dark:text-white text-black text-[600] text-[25px] font-Poppins">
               What will you learn from this course?
@@ -150,52 +158,79 @@ const CourseDetails: FC<Props> = ({ data }) => {
               <></>
             )}
           </div>
-        </div>
-        <div className="w-full 800px:w-[35%] relative">
-          <div className="sticky top-[100px] left-0 z-[50] w-full">
-            <CoursePlayer videoUrl={data?.demoUrl} title={data?.title} />
-            <div className="flex items-center">
-              <h1 className="text-black dark:text-white text-[25px] pt-5">
-                {data?.price === 0 ? "Free" : data?.price + "$"}
-              </h1>
-              <h5 className="text-black dark:text-white text-[25px] pl-3 mt-2 opacity-80 line-through">
-                {data?.estimatedPrice} $
-              </h5>
-              <h4 className="text-black dark:text-white pl-5 pt-5 text-[22px]">
-                {discountPrecentagePrice} off
-              </h4>
+          <div className="w-full 800px:w-[35%] relative">
+            <div className=" top-[100px] left-0 z-[50] w-full">
+              <CoursePlayer videoUrl={data?.demoUrl} title={data?.title} />
+              <div className="flex items-center">
+                <h1 className="text-black dark:text-white text-[25px] pt-5">
+                  {data?.price === 0 ? "Free" : data?.price + "$"}
+                </h1>
+                <h5 className="text-black dark:text-white text-[25px] pl-3 mt-2 opacity-80 line-through">
+                  {data?.estimatedPrice} $
+                </h5>
+                <h4 className="text-black dark:text-white pl-5 pt-5 text-[22px]">
+                  {discountPrecentagePrice} off
+                </h4>
+              </div>
+              <div className="flex items-center">
+                {isPurchased ? (
+                  <Link
+                    className={`${styles.button} !w-[180px] font-Poppins my-3 cursor-pointer !bg-[crimson]`}
+                    href={`course-access/${data?._id}`}
+                  >
+                    Enter to course
+                  </Link>
+                ) : (
+                  <div
+                    className={`${styles.button} !w-[180px] font-Poppins my-3 cursor-pointer !bg-[crimson`}
+                    onClick={handleOrder}
+                  >
+                    {" "}
+                    Buy now {data?.price} ${" "}
+                  </div>
+                )}
+              </div>
+              <br />
+              <p className="pb-1 text-black dark:text-white">
+                * Source code included
+              </p>
+              <p className="pb-1 text-black dark:text-white">
+                * Full lifetime access
+              </p>
+              <p className="pb-1 text-black dark:text-white">
+                * Certificate of completion
+              </p>
+              <p className="pb-1 text-black dark:text-white">
+                * Premium support
+              </p>
             </div>
-            <div className="flex items-center">
-              {isPurchased ? (
-                <Link
-                  className={`${styles.button} !w-[180px] font-Poppins my-3 cursor-pointer !bg-[crimson]`}
-                  href={`course-access/${data?._id}`}
-                >
-                  Enter to course
-                </Link>
-              ) : (
-                <div
-                  className={`${styles.button} !w-[180px] font-Poppins my-3 cursor-pointer !bg-[crimson`}
-                  onClick={handleOrder}
-                >
-                  {" "}
-                  Buy now {data?.price} ${" "}
-                </div>
-              )}
-            </div>
-            <br />
-            <p className="pb-1 text-black dark:text-white">
-              * Source code included
-            </p>
-            <p className="pb-1 text-black dark:text-white">
-              * Full lifetime access
-            </p>
-            <p className="pb-1 text-black dark:text-white">
-              * Certificate of completion
-            </p>
-            <p className="pb-1 text-black dark:text-white">* Premium support</p>
           </div>
         </div>
+
+        <>
+          {open ? (
+            <div className="w-full h-screen absolute top-6 left-0 z-50 flex items-center justify-center">
+              <div className="w-[500px]  bg-white rounded-xl shadow p-3">
+                <div className="w-full flex justify-end">
+                  <IoMdCloseCircleOutline
+                    size={40}
+                    className="text-black cursor-pointer"
+                    onClick={() => setOpen(false)}
+                  />
+                </div>
+                {stripePromise && clientSecret ? (
+                  <Elements stripe={stripePromise} options={{ clientSecret }}>
+                    <CheckoutForm setOpen={setOpen} data={data} />
+                  </Elements>
+                ) : (
+                  <></>
+                )}
+              </div>
+            </div>
+          ) : (
+            <></>
+          )}
+        </>
       </div>
     </div>
   );
