@@ -11,7 +11,6 @@ const CourseContentList: FC<Props> = ({ data }) => {
   const [visibleSections, setVisibleSections] = useState<Set<string>>(
     new Set<string>()
   );
-  console.log("data", data);
   const videoSections: string[] = [
     ...new Set<string>(data?.map((data: any) => data.videoSection)),
   ];
@@ -20,7 +19,7 @@ const CourseContentList: FC<Props> = ({ data }) => {
 
   const toggleSection = (section: string) => {
     const newVisibleSections = new Set(videoSections);
-    console.log("new", newVisibleSections.has(section));
+
     if (newVisibleSections.has(section)) {
       newVisibleSections.delete(section);
       setVisibleSections(newVisibleSections);
@@ -46,7 +45,6 @@ const CourseContentList: FC<Props> = ({ data }) => {
         const sectionStartIndex = totalCount;
         totalCount += sectionVideosCount;
         const sectionContentHours: number = sectionVideosLength / 60;
-        console.log("VL", sectionVideosLength);
 
         return (
           <div key={sectionIndex}>
