@@ -41,7 +41,6 @@ const CourseDetailsPage: FC<Props> = ({ id }) => {
       setClientSecret(paymentIntentData.client_secret);
     }
   }, [paymentIntentData]);
-  console.log(data);
 
   return (
     <>
