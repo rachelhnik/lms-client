@@ -1,6 +1,6 @@
 "use client";
 import { RootState } from "@reduxjs/toolkit/query";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Ratings from "../Admin/Course/Ratings";
 import {
@@ -31,11 +31,16 @@ const CourseDetails: FC<Props> = ({
   setOpenLogin,
 }) => {
   const { data: userData } = useLoadUserQuery(undefined, {});
-  const user = userData?.user;
+  const [user, setUser] = useState<any>();
+
   const [open, setOpen] = useState(false);
   const discountPercentage =
     (data?.estimatedPrice - data?.price / data?.estimatedPrice) * 100;
   const discountPrecentagePrice = discountPercentage.toFixed(0);
+
+  useEffect(() => {
+    setUser(userData?.user);
+  }, [userData]);
 
   const isPurchased =
     user && user.courses.find((course) => course._id === data._id);
@@ -235,7 +240,7 @@ const CourseDetails: FC<Props> = ({
                 </div>
                 {stripePromise && clientSecret ? (
                   <Elements stripe={stripePromise} options={{ clientSecret }}>
-                    <CheckoutForm setOpen={setOpen} data={data} />
+                    <CheckoutForm setOpen={setOpen} data={data} user={user} />
                   </Elements>
                 ) : (
                   <></>

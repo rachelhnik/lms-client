@@ -7,6 +7,7 @@ type Props = {
   setRoute: (route: string) => void;
   activeItem: any;
   component: any;
+  refetch?: any;
 };
 
 const CustomModal: FC<Props> = ({
@@ -15,6 +16,7 @@ const CustomModal: FC<Props> = ({
   setRoute,
   activeItem,
   component: Component,
+  refetch,
 }) => {
   return (
     <Modal
@@ -26,7 +28,7 @@ const CustomModal: FC<Props> = ({
       <Box
         className={` absolute top-[50%] left-[50%] w-[400px] -translate-x-1/2 -translate-y-1/2 rounded-[8px] bg-white dark:bg-slate-800 shadow p-4 outline-none`}
       >
-        <Component setOpen={setOpen} setRoute={setRoute} />
+        <Component setOpen={setOpen} setRoute={setRoute} refetch={refetch} />
       </Box>
     </Modal>
   );

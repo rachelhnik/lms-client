@@ -20,6 +20,9 @@ import toast from "react-hot-toast";
 import { format } from "timeago.js";
 import { BiMessage } from "react-icons/bi";
 import Ratings from "../Admin/Course/Ratings";
+import socketIo from "socket.io-client";
+const ENDPOINT = process.env.NEXT_PUBLIC_SOCKET_SERVER_URI || "";
+const socketId = socketIo(ENDPOINT, { transports: ["websocket"] });
 
 type Props = {
   data: any;
@@ -114,17 +117,34 @@ const CourseContentMedia = ({
     if (isSuccess) {
       setQuestion("");
       refetch();
+      socketId.emit("notification", {
+        title: "New question received",
+        message: `You have a new order from ${data[activeVideo]?.title}`,
+        userId: user._id,
+      });
     }
     if (addAnswerSuccess) {
       setAnswer("");
       refetch();
       toast.success("successfully updated");
+      if (user.role !== "admin") {
+        socketId.emit("notification", {
+          title: "New answer received",
+          message: `You have a new order from ${data[activeVideo]?.title}`,
+          userId: user._id,
+        });
+      }
     }
     if (reviewAddSuccess) {
       setReview("");
       setRating(1);
       refetchCourse();
       toast.success("Review added successfully");
+      socketId.emit("notification", {
+        title: "New review received",
+        message: `You have a new order from ${data[activeVideo]?.title}`,
+        userId: user._id,
+      });
     }
     if (reviewReplySuccess) {
       setReply("");

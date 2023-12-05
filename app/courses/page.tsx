@@ -1,7 +1,7 @@
 "use client";
 import { useGetAllCoursesUserQuery } from "@/redux/features/Courses/CoursesApi";
 import { useGetHeroDataQuery } from "@/redux/features/layout/LayoutApi";
-import { useSearchParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Loader from "../components/Loader/Loader";
 import Header from "../components/Header";
@@ -10,16 +10,14 @@ import { styles } from "../components/styles/style";
 import CourseCard from "../components/Admin/Course/CourseCard";
 
 const Page = () => {
-  const searchParams = useSearchParams();
-  const search = searchParams?.get("title");
+  const params = useSearchParams();
+  const search = params?.get("title");
   const { data, isLoading } = useGetAllCoursesUserQuery(undefined, {});
   const { data: categoriesData } = useGetHeroDataQuery("Category", {});
   const [route, setRoute] = useState("Login");
   const [open, setOpen] = useState(false);
   const [courses, setCourses] = useState([]);
   const [category, setCategory] = useState("All");
-  console.log(data);
-  console.log(categoriesData);
 
   useEffect(() => {
     if (category === "All") {
@@ -36,7 +34,7 @@ const Page = () => {
         )
       );
     }
-  }, [data, search, category]);
+  }, [data, category]);
 
   const categories = categoriesData?.layout.category;
   return (

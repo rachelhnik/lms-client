@@ -10,19 +10,26 @@ import React, { FC, useEffect, useState } from "react";
 import { styles } from "../styles/style";
 import toast from "react-hot-toast";
 import { redirect } from "next/navigation";
+import socketIo from "socket.io-client";
+const ENDPOINT = process.env.NEXT_PUBLIC_SOCKET_SERVER_URI || "";
+const socketId = socketIo(ENDPOINT, { transports: ["websocket"] });
 
 type Props = {
   setOpen: (data: boolean) => void;
   data: any;
+  user: any;
 };
+//
 
-const CheckoutForm: FC<Props> = ({ setOpen, data }) => {
+const CheckoutForm: FC<Props> = ({ setOpen, data, user }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [message, setMessage] = useState("");
   const [createOrder, { data: orderData, error }] = useCreateOrderMutation();
   const [loadUser, setLoadUser] = useState(false);
-  const {} = useLoadUserQuery({ skip: loadUser ? false : true });
+  const {} = useLoadUserQuery({
+    skip: loadUser ? false : true,
+  });
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: any) => {
@@ -52,6 +59,11 @@ const CheckoutForm: FC<Props> = ({ setOpen, data }) => {
   useEffect(() => {
     if (orderData) {
       setLoadUser(true);
+      socketId.emit("notification", {
+        title: "New order",
+        message: `You have a new order from ${data.name}`,
+        userId: user._id,
+      });
       redirect(`/course-access/${data._id}`);
     }
 

@@ -20,12 +20,10 @@ const schema = Yup.object().shape({
 type Props = {
   setRoute: (route: string) => void;
   setOpen: (open: boolean) => void;
-  activeItem: number;
-  route: string;
-  open: boolean;
+  refetch: any;
 };
 
-const Login: FC<Props> = ({ setRoute, setOpen, route, open, activeItem }) => {
+const Login: FC<Props> = ({ setRoute, setOpen, refetch }) => {
   const { user } = useSelector((state: any) => state.auth);
   const [show, setShow] = useState(false);
   const [login, { isSuccess, error }] = useLoginMutation();
@@ -42,6 +40,7 @@ const Login: FC<Props> = ({ setRoute, setOpen, route, open, activeItem }) => {
     if (isSuccess) {
       toast.success("Login successfully");
       setOpen(false);
+      refetch && refetch();
     }
     if (error) {
       if ("data" in error) {
