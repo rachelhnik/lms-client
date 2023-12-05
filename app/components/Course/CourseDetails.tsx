@@ -19,9 +19,17 @@ type Props = {
   data: any;
   stripePromise: any;
   clientSecret: string;
+  setRoute: (data: string) => void;
+  setOpenLogin: (data: boolean) => void;
 };
 
-const CourseDetails: FC<Props> = ({ data, clientSecret, stripePromise }) => {
+const CourseDetails: FC<Props> = ({
+  data,
+  clientSecret,
+  stripePromise,
+  setRoute,
+  setOpenLogin,
+}) => {
   const { data: userData } = useLoadUserQuery(undefined, {});
   const user = userData?.user;
   const [open, setOpen] = useState(false);
@@ -32,7 +40,12 @@ const CourseDetails: FC<Props> = ({ data, clientSecret, stripePromise }) => {
   const isPurchased =
     user && user.courses.find((course) => course._id === data._id);
   const handleOrder = () => {
-    setOpen(true);
+    if (user) {
+      setOpen(true);
+    } else {
+      setRoute("Login");
+      setOpenLogin(true);
+    }
   };
   return (
     <div>
@@ -178,7 +191,7 @@ const CourseDetails: FC<Props> = ({ data, clientSecret, stripePromise }) => {
                 {isPurchased ? (
                   <Link
                     className={`${styles.button} !w-[180px] font-Poppins my-3 cursor-pointer !bg-[crimson]`}
-                    href={`course-access/${data?._id}`}
+                    href={`/course-access/${data?._id}`}
                   >
                     Enter to course
                   </Link>
