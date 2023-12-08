@@ -19,10 +19,10 @@ const Admin: FC<Props> = () => {
           keywords="computer science, web development, machine learning"
         />
         <div className="flex h-[200vh]">
-          <div className="1500px:w-[16%] w-1/2 ">
+          <div className="w-[25%] ">
             <AdminSidebar user={user} />
           </div>
-          <div className="w-[85%]">
+          <div className="!w-[100%] ">
             <DashboardHero isDashboard={true} />
           </div>
         </div>

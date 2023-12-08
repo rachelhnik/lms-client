@@ -148,13 +148,21 @@ const Header: FC<Props> = ({ activeItem, open, setOpen, route, setRoute }) => {
           >
             <div className="w-[50%] fixed z-[9999999999] h-screen dark:border-l-[0.1px] border-l-2 bg-white border-slate-400 dark:bg-slate-800 top-0 right-0">
               <NavItems activeItem={activeItem} isMobile={true} />
-              <HiOutlineUserCircle
-                size={25}
+              <Image
+                src={
+                  userData?.user?.avatar
+                    ? userData?.user.avatar.url
+                    : "../../public/userProfile.png"
+                }
+                height={40}
+                width={40}
+                alt=""
                 onClick={() => {
                   setOpen(true);
                 }}
-                className="cursor-pointer text-slate-600 dark:text-slate-400 m-auto mt-6"
+                className="cursor-pointer text-slate-600 dark:text-slate-400 rounded-full m-auto mt-6"
               />
+
               <br />
               <br />
               <p className="fixed bottom-0 text-[12px] ml-6 text-black dark:text-slate-400">

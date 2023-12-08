@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import SidebarProfile from "./SidebarProfile";
 import { useLogoutQuery } from "../../../redux/features/Auth/authApi";
 import { signOut } from "next-auth/react";
@@ -7,6 +7,8 @@ import ProfileInfo from "./ProfileInfo";
 import PasswordChange from "./PasswordChange";
 import Link from "next/link";
 import Admin from "@/app/admin/page";
+import CourseCard from "../Admin/Course/CourseCard";
+import { useGetAllCoursesUserQuery } from "@/redux/features/Courses/CoursesApi";
 
 type Props = {
   user: any;
@@ -17,10 +19,11 @@ const Profile: FC<Props> = ({ user }) => {
   const [avatar, setAvatar] = useState(null);
   const [active, setActive] = useState(1);
   const [logout, setLogout] = useState(false);
+  const [courses, setCourses] = useState([]);
   const {} = useLogoutQuery(undefined, {
     skip: !logout ? true : false,
   });
-
+  const { isLoading, data } = useGetAllCoursesUserQuery(undefined, {});
   const logoutHandler = async () => {
     setActive(4);
     signOut();
@@ -37,6 +40,17 @@ const Profile: FC<Props> = ({ user }) => {
       }
     });
   }
+  useEffect(() => {
+    if (data) {
+      const filteredCourses = user.courses
+        .map((usercourse) =>
+          data.courses.find((course) => course._id === usercourse._id)
+        )
+        .filter((coursedata) => coursedata !== undefined);
+      setCourses(filteredCourses);
+    }
+  }, [data]);
+
   return (
     <div className="w-[85%] mx-auto flex border-slate-800 ">
       <div
@@ -60,6 +74,23 @@ const Profile: FC<Props> = ({ user }) => {
       {active === 2 && (
         <div className="w-full h-full bg-transparent mt-[80px]">
           <PasswordChange />
+        </div>
+      )}
+      {active === 3 && (
+        <div className="w-full pl-7 px-2 800px:px-10 800px:pl-8">
+          <div className="grid grid-cols-1 gap-[20px] md:grid-cols-2 md:gap-[25px] lg:grid-cols-2 lg:gap-[25px] xl:grid-cols-3 xl:gap-[35px]">
+            {courses &&
+              courses.map((coursedata: any, index: number) => (
+                <div key={index} className="mt-20">
+                  <CourseCard course={coursedata} />
+                </div>
+              ))}
+          </div>
+          {courses.length === 0 && (
+            <h1 className="text-black dark:text-white text-center text-[18px] font-Poppins">
+              You do not have any purchased courses.
+            </h1>
+          )}
         </div>
       )}
       {active === 5 && <Link href={"/admin"} />}

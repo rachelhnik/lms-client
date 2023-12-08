@@ -23,7 +23,6 @@ const CourseInformation: FC<Props> = ({
     setActive(active + 1);
   };
   const { data } = useGetHeroDataQuery("Category", {});
-  console.log("cf", courseInfo);
 
   useEffect(() => {
     if (data) {

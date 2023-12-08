@@ -8,6 +8,7 @@ import Header from "../components/Header";
 import Heading from "../utils/Heading";
 import { styles } from "../components/styles/style";
 import CourseCard from "../components/Admin/Course/CourseCard";
+import Footer from "../components/Footer/Footer";
 
 const Page = () => {
   const params = useSearchParams();
@@ -102,6 +103,7 @@ const Page = () => {
           </div>
         </>
       )}
+      <Footer />
     </div>
   );
 };
