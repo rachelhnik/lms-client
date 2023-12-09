@@ -58,7 +58,7 @@ const CourseData: FC<Props> = ({
   };
 
   return (
-    <div className="w-[80%] m-auto mt-24 block">
+    <div className="w-[90%] m-auto mt-24 block">
       <div>
         <label className={`${styles.label}`} htmlFor="email">
           What are the benefits for students in this course?
@@ -79,6 +79,7 @@ const CourseData: FC<Props> = ({
           style={{ cursor: "pointer", margin: "10px 0px", width: "30px" }}
           onClick={handleAddBenefit}
         />
+        <br />
         <label className={`${styles.label}`} htmlFor="email">
           What are the prerequsities for starting this course?
         </label>

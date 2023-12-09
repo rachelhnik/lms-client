@@ -1,19 +1,36 @@
-import { useGetHeroDataQuery } from "@/redux/features/layout/LayoutApi";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { styles } from "../styles/style";
 import { HiMinus, HiPlus } from "react-icons/hi";
 
 const FAQ = () => {
-  const { data, isLoading } = useGetHeroDataQuery("FAQ", {});
   const [activeQuesiton, setActiveQuestion] = useState(null);
-  const [questions, setQuestions] = useState<any[]>([]);
 
-  useEffect(() => {
-    if (data) {
-      setQuestions(data.layout.faq);
-    }
-  }, [data]);
-  console.log("ques", questions);
+  const faqs = [
+    {
+      question:
+        "What are the requirements to take the courses or sign up with your website?",
+      answer:
+        "As long as you have internet and laptops, you can learn from anywhere,anytime.",
+      id: 1,
+    },
+    {
+      question: "How long does each course take?",
+      answer: "Most courses are around three months duration.",
+      id: 2,
+    },
+    {
+      question: "How much do courses cost?",
+      answer:
+        "It depends on type of course , but we have monthly discount programme.",
+      id: 3,
+    },
+    {
+      question: "Can I learn at my own pace?",
+      answer: "Yes . You can learn at your own pace.",
+      id: 4,
+    },
+  ];
+
   const toggleQuestion = (id: any) => {
     setActiveQuestion(activeQuesiton === id ? null : id);
   };
@@ -25,35 +42,33 @@ const FAQ = () => {
         </h1>
         <div className="mt-12">
           <dl className="space-y-8">
-            {questions.map((question) => (
+            {faqs.map((faq, index) => (
               <div
-                key={question._id}
+                key={index}
                 className={`${
-                  question._id === questions[0].id && "border-t"
+                  faq.id === faqs[0].id && "border-t"
                 } border-gray-200 pt-6`}
               >
                 <dt className="text-lg">
                   <button
                     className="flex items-start justify-between w-full text-left focus:outline-none"
-                    onClick={() => toggleQuestion(question._id)}
+                    onClick={() => toggleQuestion(faq.id)}
                   >
                     <span className="font-medium text-black dark:text-white">
-                      {question.question}
+                      {faq.question}
                     </span>
-                    {/* <span className="font-medium text-black dark:text-white">
-                      {question.answer}
-                    </span> */}
-                    {activeQuesiton === question._id ? (
+
+                    {activeQuesiton === faq.id ? (
                       <HiMinus className="text-black dark:text-white h-6 w-6" />
                     ) : (
                       <HiPlus className="text-black dark:text-white h-6 w-6" />
                     )}
                   </button>
                 </dt>
-                {activeQuesiton === question._id && (
-                  <dd className="mt-2 pr-12">
+                {activeQuesiton === faq.id && (
+                  <dd className="mt-4 pr-12">
                     <p className="text-base text-black dark:text-white font-Poppins">
-                      {question.answer}
+                      {faq.answer}
                     </p>
                   </dd>
                 )}

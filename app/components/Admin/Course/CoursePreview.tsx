@@ -32,8 +32,8 @@ const CoursePreview: FC<Props> = ({
   };
 
   return (
-    <div className="w-[90%] m-auto py-5 mb-5">
-      <div className="w-full relative">
+    <div className="w-[90%]  m-auto py-5 mb-5">
+      <div className="w-full">
         <div className="w-full">
           <CoursePlayer
             title={courseData.courseData[0].title}
@@ -44,7 +44,7 @@ const CoursePreview: FC<Props> = ({
           <h1 className="pt-5 text-[25px]">
             {courseData.price === "0" ? "Free" : courseData.price + "$"}
           </h1>
-          <h5 className="pl-2 text-[20px] mt-2 line-through opacity-80">
+          <h5 className="pl-2 text-[20px] mt-2 line-through ">
             {courseData.estimatedPrice} $
           </h5>
           <h4 className="pl-5 pt-4 text-[22px]">
@@ -123,7 +123,7 @@ const CoursePreview: FC<Props> = ({
         <br />
         <br />
       </div>
-      <div className="w-full flex items-center justify-center">
+      <div className="w-full  flex items-center justify-center">
         <div
           className="w-full 800px:[w-180px] h-[40px] bg-[#37a39a] mx-2 pt-2  text-center text-white rounded mt-8 cursor-pointer"
           onClick={() => prevBtn()}

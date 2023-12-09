@@ -24,7 +24,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/privacy-policy"
+                  href="/policy"
                   className="text-balck dark:text-gray-300 dark:hover:text-white text-base"
                 >
                   Privacy & Policy
@@ -47,7 +47,7 @@ const Footer = () => {
             <ul className="space-y-4">
               <li>
                 <Link
-                  href="/about"
+                  href="/courses"
                   className="text-balck dark:text-gray-300 dark:hover:text-white text-base"
                 >
                   Courses
@@ -114,19 +114,19 @@ const Footer = () => {
               </li>
               <li>
                 <p className="text-balck dark:text-gray-300 dark:hover:text-white text-base">
-                  Address: SM , kwangya
+                  Address: 5655 College Ave,Oakland,Califonia,United States
                 </p>
               </li>
               <li>
                 <p className="text-balck dark:text-gray-300 dark:hover:text-white text-base">
-                  Mail us : smtown@gmail.com
+                  Mail us : nerdemy@gmail.com
                 </p>
               </li>
             </ul>
           </div>
         </div>
         <p className="text-center text-black dark:text-white text-[11px] mt-6">
-          Copyright $ 2023 Elearning | All Rights Reserved
+          Copyright © 2023 Elearning | All Rights Reserved
         </p>
       </div>
       <br />

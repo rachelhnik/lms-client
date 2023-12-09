@@ -145,7 +145,7 @@ const CourseContent: FC<Props> = ({
     }
   };
   return (
-    <div className="w-full">
+    <div className="w-[100%]">
       <form onSubmit={handleSubmit}>
         {courseContentData.map((item: any, index: any) => {
           const showSectionInput =

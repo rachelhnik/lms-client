@@ -65,10 +65,9 @@ const CourseInformation: FC<Props> = ({
       reader.readAsDataURL(file);
     }
   };
-  console.log("cfg", courseInfo.categories);
 
   return (
-    <div className="w-[80%] m-auto mt-[24px] ml-2 ">
+    <div className="w-[90%] m-auto mt-[24px] ml-2  ">
       <form className={`${styles.label}`} onSubmit={handleSubmit}>
         <label htmlFor="">Course Name</label>
         <input
@@ -99,7 +98,7 @@ const CourseInformation: FC<Props> = ({
           className={`${styles.input} !h-min !py-2`}
         ></textarea>
         <br />
-        <div className="w-full flex justify-between">
+        <div className="w-full flex justify-between items-center">
           <div className="w-[45%]">
             <label htmlFor="">Course price</label>
             <input

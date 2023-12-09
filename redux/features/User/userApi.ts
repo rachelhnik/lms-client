@@ -1,3 +1,4 @@
+import { updateUser } from "../Auth/authSlice";
 import { apiSlice } from "../api/apiSlice";
 
 export const userApi = apiSlice.injectEndpoints({
@@ -9,6 +10,14 @@ export const userApi = apiSlice.injectEndpoints({
         body: avatar,
         credentials: "include" as const,
       }),
+      async onQueryStarted({ companyId }, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(updateUser(data));
+        } catch (err: any) {
+          console.error("err", err);
+        }
+      },
     }),
     updateUserData: builder.mutation({
       query: ({ email, name }) => ({

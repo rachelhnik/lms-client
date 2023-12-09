@@ -12,6 +12,7 @@ import { useLoginMutation } from "@/redux/features/Auth/authApi";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { signIn } from "next-auth/react";
+import LoadingDefaultBtn from "../Buttons/LoadingDefaultBtn";
 
 const schema = Yup.object().shape({
   email: Yup.string().email("ivalid email").required("Please enter your email"),
@@ -26,7 +27,7 @@ type Props = {
 const Login: FC<Props> = ({ setRoute, setOpen, refetch }) => {
   const { user } = useSelector((state: any) => state.auth);
   const [show, setShow] = useState(false);
-  const [login, { isSuccess, error }] = useLoginMutation();
+  const [login, { isSuccess, error, isLoading }] = useLoginMutation();
 
   const formik = useFormik({
     initialValues: { email: "", password: "" },
@@ -110,9 +111,12 @@ const Login: FC<Props> = ({ setRoute, setOpen, refetch }) => {
             <></>
           )}
         </div>
-        <div className="w-full mt-5">
-          <input type="submit" value="Login" className={`${styles.button}`} />
-        </div>
+        <LoadingDefaultBtn
+          loading={isLoading}
+          handleClick={() => {}}
+          text="Log In"
+        />
+
         <br />
         <h5 className="text-[14px] text-center font-Poppins pt-4 text-slate-600 dark:text-white ">
           Or join with{" "}

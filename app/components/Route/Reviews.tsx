@@ -21,7 +21,7 @@ const Reviews = () => {
       profession: "Android dev",
       comment:
         "Duis posuere bibendum mauris a dapibus. Praesent sed ex a orci vestibulum fringilla. Vivamus tempus justo nunc, vel laoreet sapien tempor ve",
-      ratings: 5,
+      ratings: 4,
     },
     {
       name: "Suzan",
@@ -47,11 +47,11 @@ const Reviews = () => {
       profession: "UIUX designer",
       comment:
         "Duis posuere bibendum mauris a dapibus. Praesent sed ex a orci vestibulum fringilla. Vivamus tempus justo nunc, vel laoreet sapien tempor ve",
-      ratings: 5,
+      ratings: 4,
     },
   ];
   return (
-    <div className="w-[90%] 800px:w-[85%] m-auto">
+    <div className="w-[90%]  800px:w-[85%] m-auto">
       <div className="w-full 800px:flex items-center">
         <div className="800px:w-[50%] w-full">
           <Image
@@ -61,25 +61,29 @@ const Reviews = () => {
             alt="business"
             width={700}
             height={700}
+            className=""
           />
         </div>
-        <div className="800px:w-[50%] w-full">
-          <h3 className={`${styles.title} 800px:!text-[40px]`}>
-            Our students are <span className="text-gradient">our strength</span>
+        <div className="800px:w-[50%]  w-full">
+          <h3
+            className={`${styles.title} 800px:!text-[30px] 800px:!ml-4 !text-[18px]`}
+          >
+            Our students are our strength
             <br /> See what they say about us
           </h3>
           <br />
-          <p className={`${styles.title}`}>
+          <p
+            className={`${styles.title} 800px:!text-[26px] 800px:!ml-10 !text-[14px] !text-left ml-2`}
+          >
             Duis posuere bibendum mauris a dapibus. Praesent sed ex a orci
             vestibulum fringilla. Vivamus tempus justo nunc, vel laoreet sapien
-            tempor vel. Interdum et malesuada fames ac ante ipsum primis in
-            faucibus.
+            tempor vel.
           </p>
         </div>
         <br />
         <br />
       </div>
-      <div className="grid  grid-cols-1 gap-[25px] md:grid-cols-2 md:gap-[25px] mt-4 lg:grid-cols-2 lg:gap-[25px] xl:grid-cols-2 xl:gap-[35px] mb-12 border-0 md:[&>*:nth-child(3)]:!mt-[0px] md:[&>*:nth-child(6)]:!mt-[-40px]">
+      <div className="grid   grid-cols-1 gap-[25px] md:grid-cols-2 md:gap-[25px] mt-4 lg:grid-cols-2 lg:gap-[25px] xl:grid-cols-2 xl:gap-[35px] mb-12 border-0 md:[&>*:nth-child(3)]:!mt-[0px] md:[&>*:nth-child(6)]:!mt-[-40px]">
         {reviews &&
           reviews.map((review, index) => (
             <ReviewCard key={index} review={review} />

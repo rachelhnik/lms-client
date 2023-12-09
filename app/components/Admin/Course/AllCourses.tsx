@@ -6,18 +6,20 @@ import Box from "@mui/material/Box/Box";
 import Button from "@mui/material/Button";
 import { DataGrid } from "@mui/x-data-grid";
 import { useTheme } from "next-themes";
-import React, { useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { styles } from "../../styles/style";
 import { Modal } from "@mui/material";
 import toast from "react-hot-toast";
 import Link from "next/link";
 
-type Props = {};
+type Props = {
+  user: any;
+};
 
-const AllCourses = (props: Props) => {
+const AllCourses: FC<Props> = ({ user }) => {
   const { theme, setTheme } = useTheme();
-  const { isLoading, data, error } = useGetAllCoursesQuery(
+  const { isLoading, data, error, refetch } = useGetAllCoursesQuery(
     {},
     { refetchOnMountOrArgChange: true }
   );
@@ -74,27 +76,30 @@ const AllCourses = (props: Props) => {
 
   {
     data &&
-      data.courses.forEach((course: any) => {
-        const date = new Date(course.createdAt);
-        const formatDate =
-          date.getDate() +
-          "/" +
-          date.toLocaleString("default", { month: "2-digit" }) +
-          "/" +
-          date.getFullYear();
-        rows.push({
-          id: course._id,
-          title: course.name,
-          ratings: course.ratings,
-          purchased: course.purchased,
-          created_at: formatDate,
+      data.courses
+        .filter((coursedata) => coursedata.userId === user?._id)
+        .forEach((course: any) => {
+          const date = new Date(course.createdAt);
+          const formatDate =
+            date.getDate() +
+            "/" +
+            date.toLocaleString("default", { month: "2-digit" }) +
+            "/" +
+            date.getFullYear();
+          rows.push({
+            id: course._id,
+            title: course.name,
+            ratings: course.ratings,
+            purchased: course.purchased,
+            created_at: formatDate,
+          });
         });
-      });
   }
 
   useEffect(() => {
     if (isSuccess) {
       setOpen(false);
+      refetch();
       toast.success("Successfully updated");
     }
     if (Error) {

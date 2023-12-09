@@ -32,6 +32,19 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .hero_animation {
   background-image: linear-gradient(
     147.92deg,

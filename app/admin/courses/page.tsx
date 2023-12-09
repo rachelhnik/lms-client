@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 
 const Page: FC = () => {
   const { user } = useSelector((state: any) => state.auth);
+
   return (
     <div>
       <Heading
@@ -22,7 +23,7 @@ const Page: FC = () => {
         </div>
         <div className="w-[100%] ">
           <DashboardHeader />
-          <AllCourses />
+          <AllCourses user={user} />
         </div>
       </div>
     </div>

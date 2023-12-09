@@ -14,11 +14,13 @@ import { useRegisterMutation } from "@/redux/features/Auth/authApi";
 import toast from "react-hot-toast";
 import CircularProgress from "@mui/material/CircularProgress";
 import { signIn } from "next-auth/react";
+import LoadingDefaultBtn from "../Buttons/LoadingDefaultBtn";
 
 const schema = Yup.object().shape({
   name: Yup.string().required("Please enter your name"),
   email: Yup.string().email("ivalid email").required("Please enter your email"),
   password: Yup.string().required("Please enter your password").min(6),
+  role: Yup.string().required("Please select your role"),
 });
 type Props = {
   setRoute: (route: string) => void;
@@ -44,21 +46,22 @@ const SignUp: FC<Props> = ({ setRoute }) => {
       }
     }
   }, [isSuccess, error]);
-  console.log("isLoading", loading);
 
   const formik = useFormik({
-    initialValues: { name: "", email: "", password: "" },
+    initialValues: { name: "", email: "", password: "", role: "user" },
     validationSchema: schema,
-    onSubmit: async ({ name, email, password }) => {
+    onSubmit: async ({ name, email, password, role }) => {
       setLoading(true);
-      const data = { name, email, password };
+      const data = { name, email, password, role };
       await register(data);
     },
   });
   const { errors, touched, handleChange, handleSubmit, values } = formik;
+  console.log(values);
+
   return (
     <div className="w-full">
-      <h1 className={`${styles.title}`}>Sign in to Elearning</h1>
+      <h1 className={`${styles.title}`}>Sign up an account</h1>
       <form onSubmit={handleSubmit}>
         <label className={`${styles.label} `} htmlFor="email">
           Enter your name
@@ -101,7 +104,7 @@ const SignUp: FC<Props> = ({ setRoute }) => {
         <label className={`${styles.label} `} htmlFor="email">
           Enter your password
         </label>
-        <div className="relative ">
+        <div className="relative">
           <input
             type={show ? "password" : "text"}
             name=""
@@ -118,13 +121,13 @@ const SignUp: FC<Props> = ({ setRoute }) => {
             <AiOutlineEyeInvisible
               onClick={() => setShow(false)}
               size={20}
-              className={`text-black absolute bottom-5  r-2 ml-[380px] z-1 cursor-pointer`}
+              className={`text-black absolute bottom-5  r-2 ml-[340px] z-1 cursor-pointer`}
             />
           ) : (
             <AiOutlineEye
               size={20}
               onClick={() => setShow(true)}
-              className={`text-black absolute bottom-5 r-2  ml-[380px] z-1 cursor-pointer`}
+              className={`text-black absolute bottom-5 r-2  ml-[340px] z-1 cursor-pointer`}
             />
           )}
           {errors.password && touched.password ? (
@@ -133,20 +136,24 @@ const SignUp: FC<Props> = ({ setRoute }) => {
             <></>
           )}
         </div>
-        <div className="w-full mt-5">
-          {loading ? (
-            <button className={`${styles.button}`}>
-              {" "}
-              <CircularProgress sx={{ width: "10px", height: "10px" }} />
-            </button>
-          ) : (
-            <input
-              type="submit"
-              value="Sign up"
-              className={`${styles.button}`}
-            />
-          )}
-        </div>
+        <label className={`${styles.label}`} htmlFor="email">
+          Select your role
+        </label>
+        <select
+          id="role"
+          className="block w-full p-2 mb-6 mt-2 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          onChange={handleChange}
+        >
+          <option value="user" selected>
+            Student
+          </option>
+          <option value="admin">Teacher</option>
+        </select>
+        <LoadingDefaultBtn
+          loading={loading}
+          handleClick={() => {}}
+          text="Sign Up"
+        />
         <br />
         <h5 className="text-[14px] text-center font-Poppins pt-4 text-slate-600 dark:text-white ">
           Or join with{" "}

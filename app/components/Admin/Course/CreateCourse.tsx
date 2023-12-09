@@ -8,10 +8,13 @@ import CoursePreview from "./CoursePreview";
 import { useCreateCourseMutation } from "@/redux/features/Courses/CoursesApi";
 import toast from "react-hot-toast";
 import { redirect } from "next/navigation";
+import Loader from "../../Loader/Loader";
+import { useSelector } from "react-redux";
 
 const CreateCourse = () => {
   const [createCourse, { isLoading, isSuccess, error }] =
     useCreateCourseMutation();
+  const { user } = useSelector((state: any) => state.auth);
 
   useEffect(() => {
     if (isSuccess) {
@@ -94,6 +97,7 @@ const CreateCourse = () => {
       benefits: formattedBenefits,
       prerequsites: formattedPrerequsites,
       courseData: formattedCourseContentData,
+      userId: user._id,
     };
     setCourseData(data);
   };
@@ -106,53 +110,57 @@ const CreateCourse = () => {
   };
 
   return (
-    <div className="w-full flex justify-between min-h-screen mt-20 ">
-      <div className="w-[80%] mr-4 ">
-        {active === 0 && (
-          <CourseInformation
-            courseInfo={courseInfo}
-            setCourseInfo={setCourseInfo}
-            active={active}
-            setActive={setActive}
-          />
-        )}
-        {active === 1 && (
-          <CourseData
-            benefits={benefits}
-            setBenefits={setBenefits}
-            prerequisites={preRequsites}
-            setPrerequsities={setPrerequsites}
-            active={active}
-            setActive={setActive}
-          />
-        )}
-        {active === 2 && (
-          <CourseContent
-            active={active}
-            setActive={setActive}
-            courseContentData={courseContentData}
-            setCourseContentData={setCourseContentData}
-            handleSubmit={handleSubmit}
-          />
-        )}
-        {active === 3 && (
-          <CoursePreview
-            active={active}
-            setActive={setActive}
-            courseData={courseData}
-            handleCourseCreate={handleCourseCreate}
-          />
-        )}
-      </div>
+    <>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div className="w-full flex justify-between min-h-screen mt-20 ">
+          <div className={`w-[80%] max-400px:w-[100%] max-400px:mr-0 mr-4 `}>
+            {active === 0 && (
+              <CourseInformation
+                courseInfo={courseInfo}
+                setCourseInfo={setCourseInfo}
+                active={active}
+                setActive={setActive}
+              />
+            )}
+            {active === 1 && (
+              <CourseData
+                benefits={benefits}
+                setBenefits={setBenefits}
+                prerequisites={preRequsites}
+                setPrerequsities={setPrerequsites}
+                active={active}
+                setActive={setActive}
+              />
+            )}
+            {active === 2 && (
+              <CourseContent
+                active={active}
+                setActive={setActive}
+                courseContentData={courseContentData}
+                setCourseContentData={setCourseContentData}
+                handleSubmit={handleSubmit}
+              />
+            )}
+            {active === 3 && (
+              <CoursePreview
+                active={active}
+                setActive={setActive}
+                courseData={courseData}
+                handleCourseCreate={handleCourseCreate}
+              />
+            )}
+          </div>
 
-      <div
-        className={`${
-          window.innerWidth < 800 ? "hidden" : ""
-        } w-[-20%]    h-screen  top-18 r-0 mx-3 mt-10 align-end`}
-      >
-        <CourseOption active={active} setActive={setActive} />
-      </div>
-    </div>
+          <div
+            className={`w-[-20%] max-400px:hidden   h-screen  top-18 r-0 mx-3 mt-10 align-end`}
+          >
+            <CourseOption active={active} setActive={setActive} />
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

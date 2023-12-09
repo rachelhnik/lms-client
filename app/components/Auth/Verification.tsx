@@ -6,6 +6,7 @@ import { useActivationMutation } from "@/redux/features/Auth/authApi";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 import CircularProgress from "@mui/material/CircularProgress";
+import LoadingDefaultBtn from "../Buttons/LoadingDefaultBtn";
 
 type Props = {
   setRoute: (route: string) => void;
@@ -18,7 +19,6 @@ type VerifyNumber = {
 };
 const Verification: FC<Props> = ({ setRoute }) => {
   const { token } = useSelector((state: any) => state.auth);
-  console.log("roken", token);
   const [invalidError, setInvalidError] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [activation, { error, data, isError, isSuccess }] =
@@ -106,18 +106,12 @@ const Verification: FC<Props> = ({ setRoute }) => {
       </div>
       <br />
       <br />
-      <div className="w-full flex justify-center">
-        {loading ? (
-          <button className={`${styles.button}`}>
-            {" "}
-            <CircularProgress sx={{ width: "10px", height: "10px" }} />
-          </button>
-        ) : (
-          <button className={`${styles.button}`} onClick={verificationHandler}>
-            Verify OTP
-          </button>
-        )}
-      </div>
+      <LoadingDefaultBtn
+        loading={loading}
+        handleClick={verificationHandler}
+        text="Verify"
+      />
+
       <br />
       <h5 className="text-[14px] text-center font-Poppins pt-4 text-slate-600 dark:text-white ">
         Go back to sign in ?

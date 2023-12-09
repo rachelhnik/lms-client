@@ -29,6 +29,7 @@ import {
   getSelectedNmae,
   setSelectedName,
 } from "@/redux/features/sidebar/AdminSidebarSlice";
+import { grey } from "@mui/material/colors";
 
 interface ItemProps {
   title: string;
@@ -93,6 +94,7 @@ const AdminSidebar: FC<any> = ({ user }) => {
       sx={{
         "& .ps-sidebar-container": {
           backgroundColor: `${theme === "dark" ? "#111C43" : "white"}`,
+          zIndex: 99999,
         },
         // "& .ps-menuitem-root:hover": { color: "black", background: "blue" },
         // "& .ps-menu-label:hover": { text : "black" },
@@ -111,38 +113,38 @@ const AdminSidebar: FC<any> = ({ user }) => {
         }}
       >
         <Menu>
-          <MenuItem
-            onClick={() => setCollapse(!collapse)}
-            icon={
-              collapse ? (
-                <ArrowForwardIcon className="text-slate-700 dark:text-slate-300 color-slate-300 wrapclass" />
-              ) : undefined
-            }
-            style={{ margin: "10px 0px 20px 0px" }}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginLeft: "15px",
+            }}
           >
-            {!collapse && (
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginLeft: "15px",
-                }}
-              >
-                <IconButton
-                  className="inline-block "
-                  onClick={() => setCollapse(!collapse)}
-                >
-                  <ArrowBackIcon className="text-slate-700 dark:text-slate-300 color-slate-300 " />
-                </IconButton>
-                <Link href="/">
-                  <h3 className="text-[25px] font-Poppins uppercase  text-slate-700 dark:text-slate-300">
-                    ELearning
-                  </h3>
-                </Link>
-              </Box>
-            )}
-          </MenuItem>
+            <Link href="/">
+              {collapse ? (
+                <HomeIcon />
+              ) : (
+                <h3 className="text-[25px] font-Poppins uppercase  text-slate-700 dark:text-slate-300">
+                  ELearning
+                </h3>
+              )}
+            </Link>
+            <IconButton
+              onClick={() => {
+                setCollapse(!collapse);
+              }}
+              sx={{ ":hover": { bgcolor: "gray" } }}
+            >
+              {collapse ? (
+                <ArrowForwardIcon className="text-slate-700 dark:text-slate-300 color-slate-300 wrapclass" />
+              ) : (
+                <ArrowBackIcon className="text-slate-700 dark:text-slate-300 color-slate-300 " />
+              )}
+            </IconButton>
+          </Box>
+
+          {/* </MenuItem> */}
           {!collapse && (
             <Box mb={2}>
               <Box display="flex" justifyContent="center" alignItems="center">
@@ -158,6 +160,7 @@ const AdminSidebar: FC<any> = ({ user }) => {
                     cursor: "pointer",
                     borderRadius: "50%",
                     border: "3px solid #5b6fe6",
+                    marginTop: 2,
                   }}
                 />
               </Box>
@@ -179,7 +182,10 @@ const AdminSidebar: FC<any> = ({ user }) => {
               </Box>
             </Box>
           )}
-          <Box paddingLeft={collapse ? undefined : "10%"}>
+          <Box
+            paddingLeft={collapse ? undefined : "10%"}
+            sx={{ mt: collapse ? 2 : 0 }}
+          >
             <Item
               title="Dashboard"
               to="/admin"
@@ -242,14 +248,6 @@ const AdminSidebar: FC<any> = ({ user }) => {
               {!collapse && "Customization"}
             </Typography>
             <Item
-              title="Hero"
-              to="/admin/hero"
-              icon={<BeenhereIcon />}
-              selected={selected}
-              setSelected={setSelected}
-              router={router}
-            />
-            <Item
               title="FAQ"
               to="/admin/faq"
               icon={<QuizIcon />}
@@ -311,13 +309,7 @@ const AdminSidebar: FC<any> = ({ user }) => {
               setSelected={setSelected}
               router={router}
             />
-            <Typography
-              variant="h5"
-              sx={{ margin: "15px 0px 5px 25px" }}
-              className="text-[18px] text-slate-700 dark:text-slate-300  capitalize font-400"
-            >
-              {!collapse && "Extras"}
-            </Typography>
+            <Box sx={{ height: 10 }}></Box>
           </Box>
         </Menu>
       </Sidebar>
