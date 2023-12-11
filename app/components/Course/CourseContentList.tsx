@@ -12,28 +12,28 @@ const CourseContentList: FC<Props> = ({ data }) => {
     new Set<string>()
   );
   const videoSections: string[] = [
-    ...new Set<string>(data?.map((data: any) => data.videoSection)),
+    ...new Set<string>(data?.map((data: any) => data.title)),
   ];
 
   let totalCount: number = 0;
+  const newVisibleSections = new Set(videoSections);
 
   const toggleSection = (section: string) => {
-    const newVisibleSections = new Set(videoSections);
-
-    if (newVisibleSections.has(section)) {
-      newVisibleSections.delete(section);
-      setVisibleSections(newVisibleSections);
-    } else {
-      newVisibleSections.add(section);
-      setVisibleSections(newVisibleSections);
-    }
+    setVisibleSections((prevVisibleSections) => {
+      const newSections = new Set(prevVisibleSections);
+      if (newSections.has(section)) {
+        newSections.delete(section);
+      } else {
+        newSections.add(section);
+      }
+      return newSections;
+    });
   };
 
   return (
     <div className={`mt-[15px] w-full `}>
       {videoSections.map((section: string, sectionIndex: number) => {
         const isSectionVisible = visibleSections.has(section);
-
         const sectionVideos = data.filter(
           (item) => item.videoSection === section
         );
@@ -65,17 +65,24 @@ const CourseContentList: FC<Props> = ({ data }) => {
                 </button>
               </div>
             </div>
-            <h5 className="text-black dark:text-white">
-              {sectionVideosCount}
-              {sectionVideosCount === 0 || sectionVideosCount === 1
-                ? "Lesson"
-                : "Lessons"}
-              (
-              {sectionVideosLength < 60
-                ? sectionVideosLength
-                : sectionContentHours.toFixed(2)}
-              {sectionVideosLength < 60 ? "minutes" : "hours"})
-            </h5>
+            {isSectionVisible && (
+              <h5 className="text-black dark:text-white">
+                {sectionVideosCount}
+                {sectionVideosCount === 0 || sectionVideosCount === 1
+                  ? "Lesson"
+                  : "Lessons"}
+                (
+                {sectionVideosLength < 60
+                  ? sectionVideosLength
+                  : sectionContentHours.toFixed(2)}
+                {sectionVideosLength < 60
+                  ? sectionVideosLength === 0 || sectionVideosLength === 1
+                    ? "minute"
+                    : "minutes"
+                  : "hours"}
+                )
+              </h5>
+            )}
           </div>
         );
       })}

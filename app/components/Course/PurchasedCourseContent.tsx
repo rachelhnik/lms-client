@@ -21,6 +21,7 @@ const PurchasedCourseContent = ({ id, user }: Props) => {
   const [activeVideo, setActiveVideo] = useState(0);
   const [route, setRoute] = useState("Login");
   const [open, setOpen] = useState(false);
+  console.log("dara", data);
   return (
     <>
       {isLoading ? (

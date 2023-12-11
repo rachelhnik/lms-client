@@ -25,7 +25,8 @@ const CheckoutForm: FC<Props> = ({ setOpen, data, user }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [message, setMessage] = useState("");
-  const [createOrder, { data: orderData, error }] = useCreateOrderMutation();
+  const [createOrder, { data: orderData, error, isSuccess }] =
+    useCreateOrderMutation();
   const [loadUser, setLoadUser] = useState(false);
   const {} = useLoadUserQuery({
     skip: loadUser ? false : true,
@@ -64,7 +65,7 @@ const CheckoutForm: FC<Props> = ({ setOpen, data, user }) => {
         message: `You have a new order from ${data.name}`,
         userId: user._id,
       });
-      redirect(`/course-access/${data._id}`);
+      redirect(`${process.env.NEXT_PUBLIC_BASE_URL}/course-access/${data._id}`);
     }
 
     if (error) {
@@ -74,13 +75,15 @@ const CheckoutForm: FC<Props> = ({ setOpen, data, user }) => {
       }
     }
   }, [orderData, error]);
+
   return (
     <form onSubmit={handleSubmit} id="payment-form" className="bg-green">
       <LinkAuthenticationElement id="link-authentication-element" />
       <PaymentElement id="payment-element" />
+
       <button
         disabled={!stripe || !elements || isLoading}
-        className="mx-6 !w-[90%] rounded-md "
+        className=" !w-[100%] rounded-md "
       >
         <span id="button-text" className={`${styles.button}  mt-2 !h-[35px]`}>
           {isLoading ? "Paying ..." : "Pay Now"}

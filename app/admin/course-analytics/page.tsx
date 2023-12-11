@@ -1,8 +1,7 @@
 "use client";
 
+import DashboardHero from "../../../app/components/Admin/Dashboard/DashboardHero";
 import CourseAnalytics from "../../../app/components/Admin/Analytics/CourseAnalytics";
-import AllCourses from "../../../app/components/Admin/Course/AllCourses";
-import DashboardHeader from "../../../app/components/Admin/Dashboard/DashboardHeader";
 import AdminSidebar from "../../../app/components/Admin/Sidebar/AdminSidebar";
 import Heading from "../../../app/utils/Heading";
 import React, { FC, useState } from "react";
@@ -22,7 +21,7 @@ const Page: FC = () => {
           <AdminSidebar user={user} />
         </div>
         <div className="w-[100%] ">
-          <DashboardHeader />
+          <DashboardHero isDashboard={false} />
           <CourseAnalytics />
         </div>
       </div>

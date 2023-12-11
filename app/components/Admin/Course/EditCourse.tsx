@@ -84,6 +84,7 @@ const EditCourse: FC<Props> = ({ id }) => {
       description: "",
       videoUrl: "",
       videoThumbnail: "",
+      videoLength: "",
       videoSection: "untitled section",
       suggestion: "",
       links: [
@@ -108,6 +109,7 @@ const EditCourse: FC<Props> = ({ id }) => {
         title: courseContent.title,
         description: courseContent.description,
         videoUrl: courseContent.videoUrl,
+        videoLength: courseContent.videoLength,
         videoSection: courseContent.videoSection,
         links: courseContent.links.map((link) => ({
           title: link.title,

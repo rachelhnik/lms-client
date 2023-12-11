@@ -17,7 +17,9 @@ type Props = {
 };
 
 const CourseDetailsPage: FC<Props> = ({ id }) => {
-  const { data, isLoading } = useGetCourseDetailsQuery(id);
+  const { data, isLoading } = useGetCourseDetailsQuery(id, {
+    refetchOnMountOrArgChange: true,
+  });
   const { data: config } = useGetStripePusblishableKeyQuery({});
   const [createPaymentIntent, { data: paymentIntentData }] =
     useCreatePaymentIntentMutation();

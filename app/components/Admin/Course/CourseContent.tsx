@@ -26,7 +26,6 @@ const CourseContent: FC<Props> = ({
     courseContentData && Array(courseContentData.length).fill(false)
   );
 
-  console.log("i", courseContentData);
   const [activeSection, setActiveSection] = useState(1);
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -55,14 +54,6 @@ const CourseContent: FC<Props> = ({
   };
 
   const newContentHandler = (item: any) => {
-    console.log(
-      "item",
-      item.title,
-      item.description,
-      item.videoUrl,
-      item.links[0].title,
-      item.links[0].url
-    );
     if (
       item.title === "" ||
       item.description === "" ||
@@ -84,6 +75,7 @@ const CourseContent: FC<Props> = ({
         title: "",
         description: "",
         videoUrl: "",
+        videoLength: "",
         videoThumbnail: "",
         videoSection: newVideoSection,
         suggestion: "",
@@ -144,6 +136,7 @@ const CourseContent: FC<Props> = ({
       handleCourseSubmit();
     }
   };
+
   return (
     <div className="w-[100%]">
       <form onSubmit={handleSubmit}>
@@ -184,7 +177,7 @@ const CourseContent: FC<Props> = ({
                 <div
                   className={`w-full flex items-center justify-between my-0`}
                 >
-                  {isCollapsed[index] ? (
+                  {/* {isCollapsed[index] ? (
                     <></>
                   ) : (
                     <>
@@ -196,7 +189,7 @@ const CourseContent: FC<Props> = ({
                         <></>
                       )}
                     </>
-                  )}
+                  )} */}
                   <div className="flex items-center">
                     <AiOutlineDelete
                       className={`text-black dark:text-white mr-2 text-[20px] ${
@@ -236,6 +229,7 @@ const CourseContent: FC<Props> = ({
                           updatedData[index] = {
                             ...updatedData[index],
                             title: e.target.value,
+                            videoSection: e.target.value,
                           };
                           setCourseContentData(updatedData);
                         }}
@@ -271,7 +265,7 @@ const CourseContent: FC<Props> = ({
                           const updatedData = [...courseContentData];
                           updatedData[index] = {
                             ...updatedData[index],
-                            videoLength: e.target.value,
+                            videoLength: Number(e.target.value),
                           };
                           setCourseContentData(updatedData);
                         }}

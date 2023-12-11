@@ -87,9 +87,9 @@ const EditCategories = () => {
             {categories &&
               categories.map((category: any, index: number) => (
                 <div key={index}>
-                  <div className="flex items-center justify-center w-full">
+                  <div className="flex items-center  justify-center w-full">
                     <input
-                      className={`${styles.input} !w-[80%] !border-none !text-[20px]`}
+                      className={`${styles.input} !w-[80%] !border-black !text-[20px]`}
                       value={category.title}
                       onChange={(e) => {
                         handleCategoriesAdd(category._id, e.target.value);

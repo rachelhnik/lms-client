@@ -6,6 +6,7 @@ import AdminSidebar from "../../../app/components/Admin/Sidebar/AdminSidebar";
 import Heading from "../../../app/utils/Heading";
 import React, { FC, useState } from "react";
 import { useSelector } from "react-redux";
+import DashboardHero from "../../../app/components/Admin/Dashboard/DashboardHero";
 
 const Page: FC = () => {
   const { user } = useSelector((state: any) => state.auth);
@@ -21,7 +22,7 @@ const Page: FC = () => {
           <AdminSidebar user={user} />
         </div>
         <div className="w-[100%] ">
-          <DashboardHeader />
+          <DashboardHero isDashboard={false} />
           <EditFaq />
         </div>
       </div>

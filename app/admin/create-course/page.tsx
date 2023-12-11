@@ -1,8 +1,8 @@
 "use client";
-import CreateCourse from "@/app/components/Admin/Course/CreateCourse";
-import DashboardHeader from "@/app/components/Admin/Dashboard/DashboardHeader";
-import AdminSidebar from "@/app/components/Admin/Sidebar/AdminSidebar";
-import Heading from "@/app/utils/Heading";
+import CreateCourse from "../../../app/components/Admin/Course/CreateCourse";
+import DashboardHero from "../../../app/components/Admin/Dashboard/DashboardHero";
+import AdminSidebar from "../../../app/components/Admin/Sidebar/AdminSidebar";
+import Heading from "../../../app/utils/Heading";
 import React, { FC, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -21,7 +21,7 @@ const Page: FC = () => {
           <AdminSidebar user={user} />
         </div>
         <div className="w-[100%] ">
-          <DashboardHeader />
+          <DashboardHero isDashboard={false} />
           <CreateCourse />
         </div>
       </div>

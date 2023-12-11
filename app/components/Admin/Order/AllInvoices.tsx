@@ -22,9 +22,12 @@ const AllInvoices: FC<Props> = ({ isDashboard }) => {
   useEffect(() => {
     if (orders) {
       const temp = orders.orders.map((item: any) => {
-        const user = users?.users.find((user: any) => user.id === item.user_id);
+        const user = users?.users.find(
+          (user: any) => user?._id === item?.userId
+        );
+
         const course = courses?.courses.find(
-          (course: any) => course.id === item.course_id
+          (course: any) => course?._id === item?.courseId
         );
         return {
           ...item,
@@ -40,7 +43,7 @@ const AllInvoices: FC<Props> = ({ isDashboard }) => {
 
   const columns: any = [
     { field: "id", headerName: "ID", flex: 0.3 },
-    { field: "useName", headerName: "Name", flex: isDashboard ? 0.6 : 0.5 },
+    { field: "userName", headerName: "Name", flex: isDashboard ? 0.6 : 0.5 },
     ...(isDashboard
       ? []
       : [
@@ -68,48 +71,7 @@ const AllInvoices: FC<Props> = ({ isDashboard }) => {
           },
         ]),
   ];
-  const rows: any = [
-    // {
-    //   id: "123456",
-    //   userName: "Minhyung",
-    //   userEmail: "dfalfj@gmail.com",
-    //   title: "React js course",
-    //   price: "$500",
-    //   created_at: "2days ago",
-    // },
-    // {
-    //   id: "123456",
-    //   userName: "Minhyung",
-    //   userEmail: "dfalfj@gmail.com",
-    //   title: "React js course",
-    //   price: "$500",
-    //   created_at: "2days ago",
-    // },
-    // {
-    //   id: "123456",
-    //   userName: "Minhyung",
-    //   userEmail: "dfalfj@gmail.com",
-    //   title: "React js course",
-    //   price: "$500",
-    //   created_at: "2days ago",
-    // },
-    // {
-    //   id: "123456",
-    //   userName: "Minhyung",
-    //   userEmail: "dfalfj@gmail.com",
-    //   title: "React js course",
-    //   price: "$500",
-    //   created_at: "2days ago",
-    // },
-    // {
-    //   id: "123456",
-    //   userName: "Minhyung",
-    //   userEmail: "dfalfj@gmail.com",
-    //   title: "React js course",
-    //   price: "$500",
-    //   created_at: "2days ago",
-    // },
-  ];
+  const rows: any = [];
 
   orderData &&
     orderData.forEach((item: any) => {

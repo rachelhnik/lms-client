@@ -1,9 +1,9 @@
 "use client";
-import ThemeSwitcher from "@/app/utils/ThemeSwitcher";
+import ThemeSwitcher from "../../../../app/utils/ThemeSwitcher";
 import {
   useGetAllNotificationsQuery,
   useUpdateNotificationStatusMutation,
-} from "@/redux/features/notifications/NotificationApi";
+} from "../../../../redux/features/notifications/NotificationApi";
 import React, { FC, useEffect, useState } from "react";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import socketIo from "socket.io-client";
@@ -23,12 +23,15 @@ const DashboardHeader: FC<Props> = ({ open, setOpen }) => {
   const [updateNotificationStatus, { isSuccess }] =
     useUpdateNotificationStatusMutation();
   const [notifications, setNotifications] = useState<any>([]);
-  const [audio] = useState(
-    new Audio("../../../../public/mixkit-bell-notification-933.wav")
-  );
+
+  const [audio, setAudio] = useState<any>(null);
+
+  useEffect(() => {
+    setAudio(new Audio("../../../../public/public_mp3_bell.mp3"));
+  }, []);
 
   const playerNotificationSound = () => {
-    audio.play();
+    audio?.play();
   };
 
   useEffect(() => {
@@ -42,7 +45,7 @@ const DashboardHeader: FC<Props> = ({ open, setOpen }) => {
     if (isSuccess) {
       refetch();
     }
-    audio.load();
+    audio?.load();
   }, [data, isSuccess]);
 
   useEffect(() => {
@@ -56,7 +59,7 @@ const DashboardHeader: FC<Props> = ({ open, setOpen }) => {
     await updateNotificationStatus(id);
   };
   return (
-    <div className="w-full flex items-center justify-end p-6 fixed top-5 right-0 ">
+    <div className="w-full flex items-center justify-end p-6 z-50  fixed top-5 right-0 ">
       <ThemeSwitcher />
       <div
         className="relative cursor-pointer m-2"
@@ -68,7 +71,7 @@ const DashboardHeader: FC<Props> = ({ open, setOpen }) => {
         </span>
       </div>
       {open && (
-        <div className="w-[350px] h-[50vh] bg-white dark:bg-[#111C43] shadow-xl absolute top-16 z-10 rounded">
+        <div className="w-[350px] h-[50vh] bg-white dark:bg-[#111C43] border border-black dark:border-white overflow-y-scroll  absolute top-16 z-[999999] rounded">
           <h5 className="text-center font-Poppins text-[20px] text-black dark:text-white p-3">
             Notifications
           </h5>
@@ -79,11 +82,9 @@ const DashboardHeader: FC<Props> = ({ open, setOpen }) => {
                 className="border-b border-b-[#0000000f] font-Poppins bg-[#00000013] dark:bg-[#2d3a4ea1] dark:border-b=[#ffffff47"
               >
                 <div className="w-full flex items-center justify-between p-2">
-                  <p className="text-black dark:text-white">
-                    {notificationData.title}
-                  </p>
+                  <p className="text-green-400">{notificationData.title}</p>
                   <p
-                    className="text-black dark:text-white cursor-pointer"
+                    className="text-red-500 cursor-pointer"
                     onClick={() =>
                       handleNotificationStatusChange(notificationData._id)
                     }
@@ -91,10 +92,10 @@ const DashboardHeader: FC<Props> = ({ open, setOpen }) => {
                     Marked as read
                   </p>
                 </div>
-                <p className="px-2 text-white dark:text-black">
+                <p className="px-2 text-slate-500 dark:text-white">
                   {notificationData.message}
                 </p>
-                <p className="p-2 text-[14px] text-white dark:text-black">
+                <p className="p-2 text-[14px]  text-black dark:text-white">
                   {format(notificationData.createdAt)}
                 </p>
               </div>

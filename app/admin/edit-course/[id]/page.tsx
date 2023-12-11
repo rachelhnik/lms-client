@@ -1,9 +1,10 @@
 "use client";
-import CreateCourse from "@/app/components/Admin/Course/CreateCourse";
-import EditCourse from "@/app/components/Admin/Course/EditCourse";
-import DashboardHeader from "@/app/components/Admin/Dashboard/DashboardHeader";
-import AdminSidebar from "@/app/components/Admin/Sidebar/AdminSidebar";
-import Heading from "@/app/utils/Heading";
+
+import EditCourse from "../../../../app/components/Admin/Course/EditCourse";
+import DashboardHeader from "../../../../app/components/Admin/Dashboard/DashboardHeader";
+import DashboardHero from "../../../../app/components/Admin/Dashboard/DashboardHero";
+import AdminSidebar from "../../../../app/components/Admin/Sidebar/AdminSidebar";
+import Heading from "../../../../app/utils/Heading";
 import React, { FC, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -22,7 +23,7 @@ const Page: FC = ({ params }: any) => {
           <AdminSidebar user={user} />
         </div>
         <div className="w-[100%] ">
-          <DashboardHeader />
+          <DashboardHero isDashboard={false} />
           <EditCourse id={id} />
         </div>
       </div>

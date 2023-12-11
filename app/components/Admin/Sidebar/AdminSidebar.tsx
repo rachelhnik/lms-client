@@ -8,7 +8,6 @@ import {
   AnalyticsIcon,
   ArrowBackIcon,
   ArrowForwardIcon,
-  BeenhereIcon,
   DataUsageIcon,
   EqualizerIcon,
   GridViewIcon,
@@ -26,10 +25,11 @@ import { Category } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  getIsCollapsed,
   getSelectedNmae,
+  setIsCollapsed,
   setSelectedName,
 } from "@/redux/features/sidebar/AdminSidebarSlice";
-import { grey } from "@mui/material/colors";
 
 interface ItemProps {
   title: string;
@@ -40,14 +40,7 @@ interface ItemProps {
   router: any;
 }
 
-const Item: FC<ItemProps> = ({
-  title,
-  to,
-  icon,
-  selected,
-  setSelected,
-  router,
-}) => {
+const Item: FC<ItemProps> = ({ title, to, icon, setSelected, router }) => {
   const dispatch = useDispatch();
   const name = useSelector(getSelectedNmae);
 
@@ -77,9 +70,9 @@ const Item: FC<ItemProps> = ({
 };
 
 const AdminSidebar: FC<any> = ({ user }) => {
-  //const { user } = useSelector((state: any) => state.auth);
-  const [logout, setLogout] = useState(false);
-  const [collapse, setCollapse] = useState(false);
+  const dispatch = useDispatch();
+  const isCollapse = useSelector(getIsCollapsed);
+
   const [selected, setSelected] = useState("dashboard");
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
@@ -94,7 +87,6 @@ const AdminSidebar: FC<any> = ({ user }) => {
       sx={{
         "& .ps-sidebar-container": {
           backgroundColor: `${theme === "dark" ? "#111C43" : "white"}`,
-          zIndex: 99999,
         },
         // "& .ps-menuitem-root:hover": { color: "black", background: "blue" },
         // "& .ps-menu-label:hover": { text : "black" },
@@ -102,14 +94,15 @@ const AdminSidebar: FC<any> = ({ user }) => {
       //className="bg-white dark:bg-slate-900"
     >
       <Sidebar
-        collapsed={collapse}
+        collapsed={isCollapse}
         style={{
           position: "fixed",
           top: 0,
           left: 0,
-          height: "100vh",
-          width: collapse ? "0%" : "16%",
+          height: "100%",
+          width: isCollapse ? "0%" : "16%",
           backgroundColor: "#003049",
+          zIndex: 9999,
         }}
       >
         <Menu>
@@ -122,7 +115,7 @@ const AdminSidebar: FC<any> = ({ user }) => {
             }}
           >
             <Link href="/">
-              {collapse ? (
+              {isCollapse ? (
                 <HomeIcon />
               ) : (
                 <h3 className="text-[25px] font-Poppins uppercase  text-slate-700 dark:text-slate-300">
@@ -132,11 +125,11 @@ const AdminSidebar: FC<any> = ({ user }) => {
             </Link>
             <IconButton
               onClick={() => {
-                setCollapse(!collapse);
+                dispatch(setIsCollapsed(!isCollapse));
               }}
               sx={{ ":hover": { bgcolor: "gray" } }}
             >
-              {collapse ? (
+              {isCollapse ? (
                 <ArrowForwardIcon className="text-slate-700 dark:text-slate-300 color-slate-300 wrapclass" />
               ) : (
                 <ArrowBackIcon className="text-slate-700 dark:text-slate-300 color-slate-300 " />
@@ -144,8 +137,7 @@ const AdminSidebar: FC<any> = ({ user }) => {
             </IconButton>
           </Box>
 
-          {/* </MenuItem> */}
-          {!collapse && (
+          {!isCollapse && (
             <Box mb={2}>
               <Box display="flex" justifyContent="center" alignItems="center">
                 <Image
@@ -182,10 +174,7 @@ const AdminSidebar: FC<any> = ({ user }) => {
               </Box>
             </Box>
           )}
-          <Box
-            paddingLeft={collapse ? undefined : "10%"}
-            sx={{ mt: collapse ? 2 : 0 }}
-          >
+          <Box sx={{ mt: isCollapse ? 2 : 0 }}>
             <Item
               title="Dashboard"
               to="/admin"
@@ -199,7 +188,7 @@ const AdminSidebar: FC<any> = ({ user }) => {
               sx={{ margin: "15px 0px 5px 25px" }}
               className="text-[18px] text-slate-700 dark:text-slate-300  capitalize font-400"
             >
-              {!collapse && "Data"}
+              {!isCollapse && "Data"}
             </Typography>
             <Item
               title="Users"
@@ -222,7 +211,7 @@ const AdminSidebar: FC<any> = ({ user }) => {
               sx={{ margin: "15px 0px 5px 25px" }}
               className="text-[18px] text-slate-700 dark:text-slate-300  capitalize font-400"
             >
-              {!collapse && "Content"}
+              {!isCollapse && "Content"}
             </Typography>
             <Item
               title="Create course"
@@ -245,7 +234,7 @@ const AdminSidebar: FC<any> = ({ user }) => {
               sx={{ margin: "15px 0px 5px 25px" }}
               className="text-[18px] text-slate-700 dark:text-slate-300  capitalize font-400"
             >
-              {!collapse && "Customization"}
+              {!isCollapse && "Customization"}
             </Typography>
             <Item
               title="FAQ"
@@ -263,12 +252,12 @@ const AdminSidebar: FC<any> = ({ user }) => {
               setSelected={setSelected}
               router={router}
             />
-            <Typography
+            {/* <Typography
               variant="h5"
               sx={{ margin: "15px 0px 5px 25px" }}
               className="text-[18px] text-slate-700 dark:text-slate-300  capitalize font-400"
             >
-              {!collapse && "Controllers"}
+              {!isCollapse && "Controllers"}
             </Typography>
             <Item
               title="Manage team"
@@ -277,13 +266,13 @@ const AdminSidebar: FC<any> = ({ user }) => {
               selected={selected}
               setSelected={setSelected}
               router={router}
-            />
+            /> */}
             <Typography
               variant="h5"
               sx={{ margin: "15px 0px 5px 25px" }}
               className="text-[18px] text-slate-700 dark:text-slate-300  capitalize font-400"
             >
-              {!collapse && "Analytics"}
+              {!isCollapse && "Analytics"}
             </Typography>
             <Item
               title="Course analytics"

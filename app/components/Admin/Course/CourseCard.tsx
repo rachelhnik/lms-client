@@ -23,7 +23,7 @@ const CourseCard: FC<Props> = ({ course, isProfile }) => {
           height={300}
           alt=""
           objectFit="contain"
-          className="rounded"
+          className="rounded !min-h-[0px]"
         />
         <br />
         <h1 className="font-Poppins text-[16px] text-black dark:text-white">
@@ -36,7 +36,10 @@ const CourseCard: FC<Props> = ({ course, isProfile }) => {
               isProfile && "hidden 800px:inline"
             }`}
           >
-            {course.purchased} Students
+            {course.purchased}{" "}
+            {course.purchased === 0 || course.purchased === 1
+              ? "Student"
+              : "Students"}
           </h5>
         </div>
         <div className="w-full flex items-center justify-between pt-3">
@@ -50,7 +53,13 @@ const CourseCard: FC<Props> = ({ course, isProfile }) => {
           </div>
           <div className="flex items-center pb-3">
             <AiOutlineUnorderedList size={20} fill="#fff" />
-            <h5>{course?.courseData?.length} Lectures</h5>
+            <h5>
+              {course?.courseData?.length}{" "}
+              {course?.courseData?.length === 0 ||
+              course?.courseData?.length === 1
+                ? "Lecture"
+                : "Lectures"}
+            </h5>
           </div>
         </div>
       </div>

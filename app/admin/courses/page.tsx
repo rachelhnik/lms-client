@@ -1,5 +1,6 @@
 "use client";
 
+import DashboardHero from "../../../app/components/Admin/Dashboard/DashboardHero";
 import AllCourses from "../../../app/components/Admin/Course/AllCourses";
 import DashboardHeader from "../../../app/components/Admin/Dashboard/DashboardHeader";
 import AdminSidebar from "../../../app/components/Admin/Sidebar/AdminSidebar";
@@ -22,7 +23,7 @@ const Page: FC = () => {
           <AdminSidebar user={user} />
         </div>
         <div className="w-[100%] ">
-          <DashboardHeader />
+          <DashboardHero isDashboard={false} />
           <AllCourses user={user} />
         </div>
       </div>

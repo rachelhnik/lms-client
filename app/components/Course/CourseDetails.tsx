@@ -14,6 +14,8 @@ import CourseContentList from "./CourseContentList";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "../Payment/CheckoutForm";
 import { useLoadUserQuery } from "@/redux/features/api/apiSlice";
+import userProfile from "../../../public/userProfile.png";
+import Image from "next/image";
 
 type Props = {
   data: any;
@@ -35,7 +37,7 @@ const CourseDetails: FC<Props> = ({
 
   const [open, setOpen] = useState(false);
   const discountPercentage =
-    (data?.estimatedPrice - data?.price / data?.estimatedPrice) * 100;
+    ((data?.estimatedPrice - data?.price) / data?.estimatedPrice) * 100;
   const discountPrecentagePrice = discountPercentage.toFixed(0);
 
   useEffect(() => {
@@ -43,7 +45,9 @@ const CourseDetails: FC<Props> = ({
   }, [userData]);
 
   const isPurchased =
-    user && user.courses.find((course) => course._id === data._id);
+    (user && user?.courses?.find((course) => course._id === data._id)) ||
+    data.userId === user?._id;
+
   const handleOrder = () => {
     if (user) {
       setOpen(true);
@@ -52,6 +56,7 @@ const CourseDetails: FC<Props> = ({
       setOpenLogin(true);
     }
   };
+
   return (
     <div>
       <div className="w-[90%] m-auto py-5">
@@ -60,24 +65,25 @@ const CourseDetails: FC<Props> = ({
             <h1 className="dark:text-white text-black text-[600] text-[25px] font-Poppins">
               {data?.name}
             </h1>
-            {/* <div className="flex items-center">
-              <Ratings rating={data?.ratings} />
-              <h5 className="text-black dark:text-white">
-                {data?.reviews.length}
+            <div className="flex">
+              <div className="flex items-center mt-2">
+                <Ratings rating={data?.ratings} />
+              </div>
+              <h5 className="text-black dark:text-white mt-2">
+                {data?.purchased
+                  ? `${data?.purchased} ${
+                      data?.purchased > 1 ? "Students" : "Student"
+                    }`
+                  : "0 Student"}
               </h5>
-            </div> */}
-            {/* <h5 className="text-black dark:text-white">
-              {data?.purchased.length
-                ? `${data?.purchased.length} Students`
-                : "0 Student"}
-            </h5> */}
+            </div>
             <br />
             <h1 className="dark:text-white text-black text-[600] text-[25px] font-Poppins">
               What will you learn from this course?
             </h1>
             <div>
               {data?.benefits.map((benefit: any, index: number) => (
-                <div key={index} className="w-full flex 800px:items-start py-2">
+                <div key={index} className="w-full flex items-center py-2">
                   <div className="w-[15px] mr-1">
                     <IoMdCheckmarkCircleOutline
                       size={20}
@@ -90,14 +96,13 @@ const CourseDetails: FC<Props> = ({
                 </div>
               ))}
               <br />
-              <br />
             </div>
             <h1 className="dark:text-white text-black text-[600] text-[25px] font-Poppins">
               What are the prerequisites to learn this course?
             </h1>
             <div>
               {data?.prerequsites.map((prerequisite: any, index: number) => (
-                <div key={index} className="w-full flex 800px:items-start py-2">
+                <div key={index} className="w-full flex items-center py-2">
                   <div className="w-[15px] mr-1">
                     <IoMdCheckmarkCircleOutline
                       size={20}
@@ -109,7 +114,6 @@ const CourseDetails: FC<Props> = ({
                   </p>
                 </div>
               ))}
-              <br />
               <br />
             </div>
             <div>
@@ -131,29 +135,22 @@ const CourseDetails: FC<Props> = ({
             </div>
             <br />
             <br />
-            <div className="w-full 800px:flex items-center">
-              <Ratings rating={data?.ratings} />
-              <div className="mb-2 800px:mb-[unset]" />
-              <h5 className="dark:text-white text-black text-[600] text-[25px] font-Poppins">
-                {Number.isInteger(data?.ratings)
-                  ? data?.ratings.toFixed(1)
-                  : data?.ratings.toFixed(2)}
-                Course Rating . {data?.ratings?.length} Reviews
-              </h5>
-            </div>
-            <br />
-            <br />
+
             {data?.reviews ? (
               [...data?.reviews].reverse().map((review: any, index: number) => (
                 <div key={index} className="w-full pb-4">
                   <div className="flex">
-                    <div className="w-[50px] h-[50px]">
-                      <div className="w-[50px] h-[50px] bg-slate-600 rounded-[50px] flex items-center justify-center cursor-pointer">
-                        <h1 className="dark:text-white text-black text-[600] text-[25px] font-Poppins">
-                          {review.user?.name.slice(0, 2)}
-                        </h1>
-                      </div>
-                    </div>
+                    <Image
+                      width={40}
+                      height={40}
+                      alt=""
+                      className="rounded-full w-[40px] h-[40px] object-cover"
+                      src={
+                        review?.user?.avatar
+                          ? review?.user.avatar.url
+                          : userProfile
+                      }
+                    />
                     <div className="hidden 800px:block pl-2">
                       <div className="flex items-center">
                         <h5 className="text-[18px] pr-2 text-black dark:text-white">
@@ -189,7 +186,7 @@ const CourseDetails: FC<Props> = ({
                   {data?.estimatedPrice} $
                 </h5>
                 <h4 className="text-black dark:text-white pl-5 pt-5 text-[22px]">
-                  {discountPrecentagePrice} off
+                  {discountPrecentagePrice}% off
                 </h4>
               </div>
               <div className="flex items-center">
@@ -234,7 +231,7 @@ const CourseDetails: FC<Props> = ({
                 <div className="w-full flex justify-end">
                   <IoMdCloseCircleOutline
                     size={40}
-                    className="text-black cursor-pointer"
+                    className="text-gray-400 cursor-pointer"
                     onClick={() => setOpen(false)}
                   />
                 </div>

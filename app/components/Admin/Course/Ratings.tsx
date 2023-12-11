@@ -7,7 +7,7 @@ type Props = {
 };
 
 const Ratings: FC<Props> = ({ rating }) => {
-  const stars = [];
+  const stars: any = [];
 
   for (let i = 1; i <= 5; i++) {
     if (i <= rating) {

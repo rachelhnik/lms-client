@@ -138,7 +138,7 @@ const EditFaq = (props: Props) => {
                       onClick={() => toggleQuestion(q._id)}
                     >
                       <input
-                        className={`${styles.input} border-none`}
+                        className={`${styles.input} border-black`}
                         value={q.question}
                         placeholder={`Add your question ...`}
                         onChange={(e: any) =>
@@ -180,7 +180,7 @@ const EditFaq = (props: Props) => {
                     <dd className="mt-2 pr-12">
                       <input
                         type="number"
-                        className={`${styles.input} border-none`}
+                        className={`${styles.input} border-black`}
                         value={q.amount}
                         onChange={(e: any) =>
                           handleAmountChange(q._id, e.target.value)
@@ -188,7 +188,7 @@ const EditFaq = (props: Props) => {
                         placeholder={`Add the number of times you were asked ...`}
                       />
                       <input
-                        className={`${styles.input} border-none`}
+                        className={`${styles.input} border-black`}
                         value={q.answer}
                         onChange={(e: any) =>
                           handleAnswerChange(q._id, e.target.value)

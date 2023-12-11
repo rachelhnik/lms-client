@@ -20,6 +20,7 @@ import toast from "react-hot-toast";
 import { format } from "timeago.js";
 import { BiMessage } from "react-icons/bi";
 import Ratings from "../Admin/Course/Ratings";
+import userProfile from "../../../public/userProfile.png";
 import socketIo from "socket.io-client";
 const ENDPOINT = process.env.NEXT_PUBLIC_SOCKET_SERVER_URI || "";
 const socketId = socketIo(ENDPOINT, { transports: ["websocket"] });
@@ -270,10 +271,10 @@ const CourseContentMedia = ({
           {data[activeVideo]?.links.map((link: any, index: number) => (
             <div className="mb-5" key={index}>
               <h2 className="800px:text-[20px] 800px:inline-block text-black dark:text-white">
-                {link?.title && link?.title + ":"}
+                Source code : {link?.title && link?.title}
               </h2>
-              <a className="text-[#4395c4] inline-block 800px:text-[20px] 800px:pl-2">
-                {link?.url}
+              <a className="text-black dark:text-white inline-block 800px:text-[20px] 800px:pl-2">
+                Source url : {link?.url}
               </a>
             </div>
           ))}
@@ -283,15 +284,11 @@ const CourseContentMedia = ({
         <>
           <div className="flex w-full">
             <Image
-              width={50}
-              height={50}
+              width={40}
+              height={40}
               alt=""
-              className="rounded-full w-[50px] h-[50px] object-cover"
-              src={
-                user.avatar
-                  ? user.avatar.url
-                  : "../../../public/userProfile.png"
-              }
+              className="rounded-full w-[40px] h-[40px] object-cover"
+              src={user.avatar ? user.avatar.url : userProfile}
             />
             <textarea
               name=""
@@ -339,15 +336,11 @@ const CourseContentMedia = ({
             <>
               <div className="flex w-full">
                 <Image
-                  width={50}
-                  height={50}
+                  width={40}
+                  height={40}
                   alt=""
-                  className="rounded-full w-[50px] h-[50px] object-cover"
-                  src={
-                    user.avatar
-                      ? user.avatar.url
-                      : "../../../public/userProfile.png"
-                  }
+                  className="rounded-full w-[40px] h-[40px] object-cover"
+                  src={user.avatar ? user.avatar.url : userProfile}
                 />
                 <div className="w-full">
                   <h5 className="pl-3 text-[20px] font-500">
@@ -411,14 +404,14 @@ const CourseContentMedia = ({
                       <div className="w-full flex">
                         <div>
                           <Image
-                            width={50}
-                            height={50}
+                            width={40}
+                            height={40}
                             alt=""
-                            className="rounded-full w-[50px] h-[50px] object-cover"
+                            className="rounded-full w-[40px] h-[40px] object-cover"
                             src={
                               review.user.avatar
                                 ? review.user.avatar.url
-                                : "../../../public/userProfile.png"
+                                : userProfile
                             }
                           />
                         </div>
@@ -431,6 +424,44 @@ const CourseContentMedia = ({
                           </small>
                         </div>
                       </div>
+                      {review.commentReplies.map(
+                        (commentReply: any, index: number) => (
+                          <div
+                            className="w-full flex 800px:ml-16 text-black dark:text-white"
+                            key={commentReply._id}
+                          >
+                            <div>
+                              <Image
+                                width={40}
+                                height={40}
+                                alt=""
+                                className="rounded-full w-[40px] h-[40px] object-cover"
+                                src={
+                                  commentReply.user.avatar
+                                    ? commentReply.user.avatar.url
+                                    : userProfile
+                                }
+                              />
+                            </div>
+                            <div className="pl-2">
+                              <div className="flex items-center">
+                                <h5 className="text-[20px]">
+                                  {commentReply.user.name}
+                                </h5>
+                                {commentReply.user.role === "admin" && (
+                                  <VscVerifiedFilled className="text-[20px] text-[#0095F6] ml-2" />
+                                )}
+                              </div>
+                              <p>{commentReply.comment}</p>
+                              <small className="text-[#ffffff83]">
+                                {commentReply.createdAt
+                                  ? format(commentReply.createdAt)
+                                  : ""}
+                              </small>
+                            </div>
+                          </div>
+                        )
+                      )}
                       {user.role === "admin" && (
                         <span
                           className={styles.label}
@@ -468,44 +499,6 @@ const CourseContentMedia = ({
                           </div>
                         )}
                       </div>
-                      {review.commentReplies.map(
-                        (commentReply: any, index: number) => (
-                          <div
-                            className="w-full flex 800px:ml-16 text-black dark:text-white"
-                            key={commentReply._id}
-                          >
-                            <div>
-                              <Image
-                                width={50}
-                                height={50}
-                                alt=""
-                                className="rounded-full w-[50px] h-[50px] object-cover"
-                                src={
-                                  commentReply.user.avatar
-                                    ? commentReply.user.avatar.url
-                                    : "../../../public/userProfile.png"
-                                }
-                              />
-                            </div>
-                            <div className="pl-2">
-                              <div className="flex items-center">
-                                <h5 className="text-[20px]">
-                                  {commentReply.user.name}
-                                </h5>
-                                {commentReply.user.role === "admin" && (
-                                  <VscVerifiedFilled className="text-[20px] text-[#0095F6] ml-2" />
-                                )}
-                              </div>
-                              <p>{commentReply.comment}</p>
-                              <small className="text-[#ffffff83]">
-                                {commentReply.createdAt
-                                  ? format(commentReply.createdAt)
-                                  : ""}
-                              </small>
-                            </div>
-                          </div>
-                        )
-                      )}
                     </div>
                   ))}
             </div>
@@ -566,14 +559,12 @@ const CommentItem = ({
         <div className="flex mb-2">
           <div>
             <Image
-              width={50}
-              height={50}
+              width={40}
+              height={40}
               alt=""
-              className="rounded-full w-[50px] h-[50px] object-cover"
+              className="rounded-full w-[40px] h-[40px] object-cover"
               src={
-                question.user.avatar
-                  ? question.user.avatar.url
-                  : "../../../public/userProfile.png"
+                question.user.avatar ? question.user.avatar.url : userProfile
               }
             />
           </div>
@@ -614,14 +605,12 @@ const CommentItem = ({
               >
                 <div>
                   <Image
-                    width={50}
-                    height={50}
+                    width={40}
+                    height={40}
                     alt=""
-                    className="rounded-full w-[50px] h-[50px] object-cover"
+                    className="rounded-full w-[40px] h-[40px] object-cover"
                     src={
-                      reply.user.avatar
-                        ? reply.user.avatar.url
-                        : "../../../public/userProfile.png"
+                      reply.user.avatar ? reply.user.avatar.url : userProfile
                     }
                   />
                 </div>

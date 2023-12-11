@@ -18,7 +18,6 @@ const CoursePlayer: FC<Props> = ({ title, videoUrl }) => {
         setVideoData(res.data);
       });
   }, [videoUrl]);
-  console.log(videoUrl);
 
   return (
     <div style={{ paddingTop: "41%", position: "relative" }}>
