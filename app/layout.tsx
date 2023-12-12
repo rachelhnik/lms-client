@@ -34,7 +34,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning={true}>
       <body
         className={`${poppins.variable} ${josefins.variable} bg-white h-screen dark:bg-slate-800 dark:bg-gradient-to-b bg-no-repeat dark:to-black duration-300`}
       >

@@ -1,3 +1,4 @@
+import { updateUser } from "../Auth/authSlice";
 import { apiSlice } from "../api/apiSlice";
 
 export const orderApi = apiSlice.injectEndpoints({
@@ -33,6 +34,14 @@ export const orderApi = apiSlice.injectEndpoints({
         body: { courseId, paymentInfo },
         credentials: "include" as const,
       }),
+      async onQueryStarted({ companyId }, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          dispatch(updateUser(data.user));
+        } catch (err: any) {
+          console.error("err", err);
+        }
+      },
     }),
   }),
 });

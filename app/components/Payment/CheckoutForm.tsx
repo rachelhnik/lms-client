@@ -28,7 +28,7 @@ const CheckoutForm: FC<Props> = ({ setOpen, data, user }) => {
   const [createOrder, { data: orderData, error, isSuccess }] =
     useCreateOrderMutation();
   const [loadUser, setLoadUser] = useState(false);
-  const {} = useLoadUserQuery({
+  const { refetch } = useLoadUserQuery({
     skip: loadUser ? false : true,
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -52,14 +52,15 @@ const CheckoutForm: FC<Props> = ({ setOpen, data, user }) => {
       setMessage(error?.message as string);
       setIsLoading(false);
     } else if (paymentIntent && paymentIntent.status === "succeeded") {
-      setIsLoading(false);
       createOrder({ courseId: data._id, paymentInfo: paymentIntent });
     }
   };
 
   useEffect(() => {
     if (orderData) {
+      setIsLoading(false);
       setLoadUser(true);
+      toast.success("Successfully purchased!");
       socketId.emit("notification", {
         title: "New order",
         message: `You have a new order from ${data.name}`,

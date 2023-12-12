@@ -16,7 +16,9 @@ import Login from "../components/Auth/Login";
 const Page = () => {
   const params = useSearchParams();
   const search = params?.get("title");
-  const { data, isLoading, refetch } = useGetAllCoursesUserQuery(undefined, {});
+  const { data, isLoading, refetch } = useGetAllCoursesUserQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
   const { data: categoriesData } = useGetHeroDataQuery("Category", {});
   const { user } = useSelector((state: any) => state.auth);
   const [route, setRoute] = useState("");
@@ -25,6 +27,7 @@ const Page = () => {
   const [category, setCategory] = useState("All");
 
   useEffect(() => {
+    refetch();
     if (!user) {
       setRoute("Login");
       setOpen(true);
